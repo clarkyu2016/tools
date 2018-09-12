@@ -203,8 +203,9 @@
               text_total += `ELSE NULL END AS ${new_name}`;
             }
 
-            console.log(text_total);
-            
+            if(text_total.indexOf("NaN") != -1){
+              text_total = '请检查输入！'
+            }
             return text_total;
           }
 
@@ -215,11 +216,11 @@
           if(array_list.length >=2){
             tObj.value = irregular_case(inputName,array_list,leftclose,infinite,outputName);
           }else{
-            if(interval > 0){
+            if(interval > 0 &&parseFloat(startnum).toString() != 'NaN' && parseFloat(endnum).toString() != 'NaN' && startnum < endnum ){
               tObj.value = regular_case(inputName,startnum,endnum,interval,leftclose,infinite,outputName);
             }
             else{
-              tObj.value = ''
+              tObj.value = '请检查输入！'
             }
 
           }
