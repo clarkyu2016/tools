@@ -56,7 +56,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="irregular">手动输入不规则间隔（空格分隔)</label>
+              <label for="irregular">手动输入不规则间隔（空格分隔）</label>
               <input type="text" class="form-control" id="irregular" placeholder="">
             </div>
 
@@ -107,8 +107,7 @@
       </footer>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+
     
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -138,12 +137,12 @@
           var irregular = document.getElementById("irregular").value;
           var leftclose = getRadioValue("leftclose") * 1;
           var infinite = getRadioValue("infinite") * 1;
-          
+
           function regular_case(column_name,start,end,interval,left_close,if_end,new_name)
           {
             var text_total = 'CASE '
             var cnt = (end-start)/interval;
-            console.log(cnt)
+
             if (left_close == 1){
               var left_char = '>=';
                 var left_char2 = '[';
@@ -169,8 +168,6 @@
             }else{
               text_total += `ELSE NULL END AS ${new_name}`;
             }
-
-            console.log(text_total);
 
             return text_total;
           }
@@ -218,7 +215,13 @@
           if(array_list.length >=2){
             tObj.value = irregular_case(inputName,array_list,leftclose,infinite,outputName);
           }else{
-            tObj.value = regular_case(inputName,startnum,endnum,interval,leftclose,infinite,outputName);
+            if(interval > 0){
+              tObj.value = regular_case(inputName,startnum,endnum,interval,leftclose,infinite,outputName);
+            }
+            else{
+              tObj.value = ''
+            }
+
           }
 
           }
