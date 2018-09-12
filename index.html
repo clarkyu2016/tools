@@ -17,16 +17,11 @@
     <div class="container">
       <div class="py-5 text-center">
         <h2>CASE WHEN 自动生成小工具</h2>
-        <p class="lead">输入相应的数值和字符，自动生成 CASE WHEN 的 SQL 语句</p>
+        <p class="lead">输入相应的数值和字符，自动生成 <b>CASE WHEN</b> 的 <b>SQL</b> 语句</p>
       </div>
 
       <div class="row">
-        <div class="col-md-6 order-md-2 mb-4">
-          <div class="form-group mb-3">
-            <textarea class="form-control" id="textarea" rows="25"></textarea>
-          </div>
 
-        </div>
         <div class="col-md-6 order-md-1">
           <form class="needs-validation" novalidate="">
             <div class="row">
@@ -96,8 +91,17 @@
             <hr class="mb-4">
 
             <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
+
+            <br>
           </form>
         </div>
+
+        <div class="col-md-6 order-md-2 mb-4">
+              <textarea class="form-control" id="textarea" rows="24"></textarea>
+            </div>
+  
+          </div>
+            
       </div>
 
       <footer class="my-5 pt-5 text-muted text-center text-small">
