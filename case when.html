@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://v4.bootcss.com/docs/4.0/examples/checkout/ -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="case_when.ico">
+
+    <title>CASE WHEN 自动生成小工具</title>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+
+  <body class="bg-light">
+
+    <div class="container">
+      <div class="py-5 text-center">
+        <h2>CASE WHEN 自动生成小工具</h2>
+        <p class="lead">输入相应的数值和字符，自动生成 CASE WHEN 的 SQL 语句</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 order-md-2 mb-4">
+          <div class="form-group mb-3">
+            <textarea class="form-control" id="textarea" rows="25"></textarea>
+          </div>
+
+        </div>
+        <div class="col-md-6 order-md-1">
+          <form class="needs-validation" novalidate="">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="inputName">输入字段名</label>
+                <input type="text" class="form-control" id="inputName" placeholder="" value="">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="outputName">输出字段名</label>
+                <input type="text" class="form-control" id="outputName" placeholder="" value="">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="startnum">起始数值</label>
+              <input type="text" class="form-control" id="startnum" placeholder="">
+            </div>
+
+            <div class="mb-3">
+              <label for="endnum">结束数值</label>
+              <input type="text" class="form-control" id="endnum" placeholder="">
+            </div>
+
+            <div class="mb-3">
+              <label for="interval">步长</label>
+              <input type="text" class="form-control" id="interval" placeholder="">
+            </div>
+
+            <div class="mb-3">
+              <label for="irregular">手动输入不规则间隔（空格分隔)</label>
+              <input type="text" class="form-control" id="irregular" placeholder="">
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="inputName">开闭选择</label>
+                <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="leftclose" id="leftclose1" value=1 checked="checked">
+                    <label class="form-check-label" for="leftclose1">左闭右开</label>
+                  </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="leftclose" id="leftclose2" value=2>
+                    <label class="form-check-label" for="leftclose2">左开右闭</label>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <div class="col-md-6 mb-3">
+                  <label for="inputName">是否到无穷</label>
+                  <div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="infinite" id="infinite1" value=1 checked="checked">
+                      <label class="form-check-label" for="infinite1">是</label>
+                    </div>
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="infinite" id="infinite2" value=2>
+                      <label class="form-check-label" for="infinite2">否</label>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+
+            <hr class="mb-4">
+
+            <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
+          </form>
+        </div>
+      </div>
+
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">© 2018-2019 Clark Yu</p>
+        <ul class="list-inline">
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+    function generate() {
+                
+          function getRadioValue(radioName)
+          {
+            var radios = document.getElementsByName(radioName);
+            if(!radios)
+              return '';
+            for (var i = 0; i < radios.length; i++)
+            {
+              if (radios[i].checked)
+              return radios[i].value;
+            }
+              return '';
+          }
+
+          var inputName = document.getElementById("inputName").value;
+          var outputName = document.getElementById("outputName").value;
+          var startnum = document.getElementById("startnum").value * 1;
+          var endnum = document.getElementById("endnum").value * 1 ;
+          var interval = document.getElementById("interval").value * 1;
+          var irregular = document.getElementById("irregular").value;
+          var leftclose = getRadioValue("leftclose") * 1;
+          var infinite = getRadioValue("infinite") * 1;
+          
+          function regular_case(column_name,start,end,interval,left_close,if_end,new_name)
+          {
+            var text_total = 'CASE '
+            var cnt = (end-start)/interval;
+            console.log(cnt)
+            if (left_close == 1){
+              var left_char = '>=';
+                var left_char2 = '[';
+                var right_char = '<';
+                var right_char2 = ')';
+            }else{
+              var left_char = '>';
+              var left_char2 = '(';
+              var right_char = '<=';
+              var right_char2 = ']';
+            }
+            
+            for (var i = 0; i < cnt; i++)
+            {
+              var left_num = start + interval * i;
+              var right_num = left_num + interval;
+              var oneline = `WHEN ${column_name} ${left_char} ${left_num} AND ${column_name} ${right_char} ${right_num} THEN '${left_char2}${left_num}, ${right_num}${right_char2}'\n`;
+              text_total += oneline;
+            }
+
+            if (if_end == 1){
+              text_total += `ELSE '${left_char2}${right_num}, +∞${right_char2}' END AS ${new_name}`;
+            }else{
+              text_total += `ELSE NULL END AS ${new_name}`;
+            }
+
+            console.log(text_total);
+
+            return text_total;
+          }
+
+
+          function irregular_case(column_name,num_list,left_close,if_end,new_name)
+          {
+            var text_total = 'CASE '
+
+            if (left_close == 1){
+              var left_char = '>=';
+                var left_char2 = '[';
+                var right_char = '<';
+                var right_char2 = ')';
+            }else{
+              var left_char = '>';
+              var left_char2 = '(';
+              var right_char = '<=';
+              var right_char2 = ']';
+            }
+            
+            for (var i = 0; i < num_list.length-1; i++)
+            {
+              var left_num =  num_list[i]*1;
+              var right_num = num_list[i+1]*1;
+              var oneline = `WHEN ${column_name} ${left_char} ${left_num} AND ${column_name} ${right_char} ${right_num} THEN '${left_char2}${left_num}, ${right_num}${right_char2}'\n`;
+              text_total += oneline;
+            }
+
+            if (if_end == 1){
+              text_total += `ELSE '${left_char2}${right_num}, +∞${right_char2}' END AS ${new_name}`;
+            }else{
+              text_total += `ELSE NULL END AS ${new_name}`;
+            }
+
+            console.log(text_total);
+            
+            return text_total;
+          }
+
+
+          var tObj = document.getElementById('textarea');
+          // 
+          var array_list = irregular.split(" ")
+          if(array_list.length >=2){
+            tObj.value = irregular_case(inputName,array_list,leftclose,infinite,outputName);
+          }else{
+            tObj.value = regular_case(inputName,startnum,endnum,interval,leftclose,infinite,outputName);
+          }
+
+          }
+    </script>
+
+</body></html>
