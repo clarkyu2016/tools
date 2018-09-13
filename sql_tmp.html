@@ -267,7 +267,7 @@
                 
                 var on_text = getOntext(on_list,join_rk,n);
                 if (table.length > 0){
-                  text += `\n${join_way}` + `\n(\n\tSELECT * FROM\n\t${table}\n\tWHERE pt = '${yesterday}'\n) t${n}` + on_text;
+                  text += `\n${join_way}` + `\n(\n\tSELECT * FROM\n\t${table}\n\tWHERE pt = '${yesterday}'\n)t${n}` + on_text;
                 }else{
                   text += '';
                 }
