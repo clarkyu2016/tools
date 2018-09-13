@@ -28,7 +28,7 @@
 
       <div class="py-5 text-center">
         <h2>SQL 模板自动生成小工具</h2>
-        <p class="lead">输入相应的表名，选择合适的连接方式以及其他参数，自动生成SQL模板</p>
+        <p class="lead">输入相应的表名，选择合适的关联方式以及其他参数，自动生成SQL模板</p>
       </div>
 
       <div class="row">
@@ -47,10 +47,10 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                   <label for="table2">第二张表名</label>
-                  <input type="text" class="form-control" id="table2" placeholder="" value="">
+                  <input type="text" class="form-control" id="table2" placeholder="选填" value="">
                 </div>
                 <div class="col-md-2 mb-3">
-                  <label for="outputName">连接方式</label>
+                  <label for="outputName">关联方式</label>
                   <select class="custom-select" id="jw2">
                       <option value=1>LEFT</option>
                       <option value=2>INNER</option>
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <label for="outputName">连接字段</label>
+                    <label for="outputName">关联字段</label>
                     <input type="text" class="form-control" id="kw2" placeholder="多字段用空格分隔" value="">
                   </div>
               </div>
@@ -80,10 +80,10 @@
               <div class="row">
                   <div class="col-md-4 mb-3">
                     <label for="table3">第三张表名</label>
-                    <input type="text" class="form-control" id="table3" placeholder="" value="">
+                    <input type="text" class="form-control" id="table3" placeholder="选填" value="">
                   </div>
                   <div class="col-md-2 mb-3">
-                    <label for="outputName">连接方式</label>
+                    <label for="outputName">关联方式</label>
                     <select class="custom-select" id="jw3">
                         <option value=1>LEFT</option>
                         <option value=2>INNER</option>
@@ -104,7 +104,7 @@
                   </div>
   
                   <div class="col-md-4 mb-3">
-                      <label for="outputName">连接字段</label>
+                      <label for="outputName">关联字段</label>
                       <input type="text" class="form-control" id="kw3" placeholder="多字段用空格分隔" value="">
                     </div>
                 </div>
@@ -113,10 +113,10 @@
                 <div class="row">
                   <div class="col-md-4 mb-3">
                     <label for="table4th">第四张表名</label>
-                    <input type="text" class="form-control" id="table4" placeholder="" value="">
+                    <input type="text" class="form-control" id="table4" placeholder="选填" value="">
                   </div>
                   <div class="col-md-2 mb-3">
-                    <label for="outputName">连接方式</label>
+                    <label for="outputName">关联方式</label>
                     <select class="custom-select" id="jw4">
                         <option value=1>LEFT</option>
                         <option value=2>INNER</option>
@@ -137,7 +137,7 @@
                   </div>
   
                   <div class="col-md-4 mb-3">
-                      <label for="outputName">连接字段</label>
+                      <label for="outputName">关联字段</label>
                       <input type="text" class="form-control" id="kw4" placeholder="多字段用空格分隔" value="">
                     </div>
                 </div>
@@ -146,10 +146,10 @@
                 <div class="row">
                     <div class="col-md-4 mb-3">
                       <label for="table5th">第五张表名</label>
-                      <input type="text" class="form-control" id="table5" placeholder="" value="">
+                      <input type="text" class="form-control" id="table5" placeholder="选填" value="">
                     </div>
                     <div class="col-md-2 mb-3">
-                      <label for="outputName">连接方式</label>
+                      <label for="outputName">关联方式</label>
                       <select class="custom-select" id="jw5">
                           <option value=1>LEFT</option>
                           <option value=2>INNER</option>
@@ -170,7 +170,7 @@
                     </div>
     
                     <div class="col-md-4 mb-3">
-                        <label for="outputName">连接字段</label>
+                        <label for="outputName">关联字段</label>
                         <input type="text" class="form-control" id="kw5" placeholder="多字段用空格分隔" value="">
                       </div>
                   </div>
@@ -183,7 +183,7 @@
         </div>
 
         <div class="col-md-5 order-md-2 mb-4">
-              <textarea class="form-control" id="textarea" rows="26"></textarea>
+              <textarea class="form-control" id="textarea" rows="26" placeholder="目前只支持最多六张表相关联！"></textarea>
             </div>
   
           </div>
@@ -237,7 +237,7 @@
           }
 
           var table1 = document.getElementById("table1").value;
-          var first_text = `(\n\tSELECT * FROM\n\t${table1}\n\tWHERE pt = '${yesterday}'\n) t1`;
+          var first_text = `(\n\tSELECT\n\n\tFROM ${table1}\n\tWHERE pt = '${yesterday}'\n) t1`;
 
           total_table_num = 5;
           var text = '';
@@ -267,14 +267,20 @@
                 
                 var on_text = getOntext(on_list,join_rk,n);
                 if (table.length > 0){
-                  text += `\n${join_way}` + `\n(\n\tSELECT * FROM\n\t${table}\n\tWHERE pt = '${yesterday}'\n)t${n}` + on_text;
+                  text += `\n${join_way}` + `\n(\n\tSELECT\n\n\tFROM ${table}\n\tWHERE pt = '${yesterday}'\n)t${n}` + on_text;
                 }else{
                   text += '';
                 }
           }
+          
 
           var tObj = document.getElementById('textarea');
-          tObj.value = 'SELECT\nt1.*\nFROM\n' + first_text + text + '\n;';
+          if(document.getElementById(`table1`).value.length > 0){
+            tObj.value = 'SELECT\n\nFROM\n' + first_text + text + '\n;';
+          }else{
+            tObj.value = '请输入表名！'
+          }
+
           }
     </script>
 
