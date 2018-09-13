@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="case_when.ico">
+
+    <title>SQL 模板生成</title>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="footer.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
+          <nav class="my-2 my-md-0 mr-md-3 nav">
+            <a class="nav-link p-2 text-dark" href="index.html">首页</a>
+            <a class="nav-link p-2 text-dark" href="case_when.html">快速 CASE WHEN</a>
+            <a class="nav-link p-2 active" href="sql_tmp.html">SQL 模板生成</a>
+          </nav>
+        </div>
+    <div class="container">
+
+
+
+      <div class="py-5 text-center">
+        <h2>SQL 模板自动生成小工具</h2>
+        <p class="lead">输入相应的表名，选择合适的连接方式以及其他参数，自动生成SQL模板</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-7 order-md-1">
+          <form class="needs-validation" novalidate="">
+            <div class="row">
+              <div class="col-md-8 mb-3">
+                <label for="table1">主表名称</label>
+                <input type="text" class="form-control" id="table1" placeholder="" value="">
+              </div>
+            </div>
+
+            <hr class="mb-3">
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="table2">第二张表名</label>
+                  <input type="text" class="form-control" id="table2" placeholder="" value="">
+                </div>
+                <div class="col-md-2 mb-3">
+                  <label for="outputName">连接方式</label>
+                  <select class="custom-select" id="jw2">
+                      <option value=1>LEFT</option>
+                      <option value=2>INNER</option>
+                      <option value=3>RIGHT</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label for="outputName">关联表序</label>
+                    <select class="custom-select" id="on2">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                        <option value=6>6</option>
+                      </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="outputName">连接字段</label>
+                    <input type="text" class="form-control" id="kw2" placeholder="多字段用空格分隔" value="">
+                  </div>
+              </div>
+              <hr class="mb-3">
+
+              <div class="row">
+                  <div class="col-md-4 mb-3">
+                    <label for="table3">第三张表名</label>
+                    <input type="text" class="form-control" id="table3" placeholder="" value="">
+                  </div>
+                  <div class="col-md-2 mb-3">
+                    <label for="outputName">连接方式</label>
+                    <select class="custom-select" id="jw3">
+                        <option value=1>LEFT</option>
+                        <option value=2>INNER</option>
+                        <option value=3>RIGHT</option>
+                      </select>
+                  </div>
+  
+                  <div class="col-md-2 mb-3">
+                      <label for="outputName">关联表序</label>
+                      <select class="custom-select" id="on3">
+                          <option value=1>1</option>
+                          <option value=2>2</option>
+                          <option value=3>3</option>
+                          <option value=4>4</option>
+                          <option value=5>5</option>
+                          <option value=6>6</option>
+                        </select>
+                  </div>
+  
+                  <div class="col-md-4 mb-3">
+                      <label for="outputName">连接字段</label>
+                      <input type="text" class="form-control" id="kw3" placeholder="多字段用空格分隔" value="">
+                    </div>
+                </div>
+                <hr class="mb-3">
+                
+                <div class="row">
+                  <div class="col-md-4 mb-3">
+                    <label for="table4th">第四张表名</label>
+                    <input type="text" class="form-control" id="table4" placeholder="" value="">
+                  </div>
+                  <div class="col-md-2 mb-3">
+                    <label for="outputName">连接方式</label>
+                    <select class="custom-select" id="jw4">
+                        <option value=1>LEFT</option>
+                        <option value=2>INNER</option>
+                        <option value=3>RIGHT</option>
+                      </select>
+                  </div>
+  
+                  <div class="col-md-2 mb-3">
+                      <label for="outputName">关联表序</label>
+                      <select class="custom-select" id="on4">
+                          <option value=1>1</option>
+                          <option value=2>2</option>
+                          <option value=3>3</option>
+                          <option value=4>4</option>
+                          <option value=5>5</option>
+                          <option value=6>6</option>
+                        </select>
+                  </div>
+  
+                  <div class="col-md-4 mb-3">
+                      <label for="outputName">连接字段</label>
+                      <input type="text" class="form-control" id="kw4" placeholder="多字段用空格分隔" value="">
+                    </div>
+                </div>
+                <hr class="mb-3">
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <label for="table5th">第五张表名</label>
+                      <input type="text" class="form-control" id="table5" placeholder="" value="">
+                    </div>
+                    <div class="col-md-2 mb-3">
+                      <label for="outputName">连接方式</label>
+                      <select class="custom-select" id="jw5">
+                          <option value=1>LEFT</option>
+                          <option value=2>INNER</option>
+                          <option value=3>RIGHT</option>
+                        </select>
+                    </div>
+    
+                    <div class="col-md-2 mb-3">
+                        <label for="outputName">关联表序</label>
+                        <select class="custom-select" id="on5">
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>4</option>
+                            <option value=5>5</option>
+                            <option value=6>6</option>
+                          </select>
+                    </div>
+    
+                    <div class="col-md-4 mb-3">
+                        <label for="outputName">连接字段</label>
+                        <input type="text" class="form-control" id="kw5" placeholder="多字段用空格分隔" value="">
+                      </div>
+                  </div>
+                  <hr class="mb-3">
+
+            <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
+
+            <br>
+          </form>
+        </div>
+
+        <div class="col-md-5 order-md-2 mb-4">
+              <textarea class="form-control" id="textarea" rows="26"></textarea>
+            </div>
+  
+          </div>
+            
+      </div>
+
+      <footer class="text-muted text-center text-small footer">
+        <p class="mb-1">© 2018-2019 Clark Yu</p>
+        <ul class="list-inline">
+        </ul>
+      </footer>
+
+
+    
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+    function generate() {
+                
+        function getNowFormatDate() {
+        var date = new Date(new Date()-24*60*60*1000);
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+        }
+
+        var yesterday = getNowFormatDate();
+
+          function getRadioValue(radioName)
+          {
+            var radios = document.getElementsByName(radioName);
+            if(!radios)
+              return '';
+            for (var i = 0; i < radios.length; i++)
+            {
+              if (radios[i].checked)
+              return radios[i].value;
+            }
+              return '';
+          }
+
+          var table1 = document.getElementById("table1").value;
+          var first_text = `(\n\tSELECT * FROM\n\t${table1}\n\tWHERE pt = '${yesterday}'\n) t1`;
+
+          total_table_num = 5;
+          var text = '';
+          for (var i = 2; i <= total_table_num; i++){
+                var n = `${i}`;
+                var table = document.getElementById(`table${n}`).value;
+                var join_way = $(`#jw${n} option:selected`).text() + ' JOIN'; 
+                var join_rk  = $(`#on${n} option:selected`).val();
+                var on_list = document.getElementById(`kw${n}`).value.split(" ");
+                function getOntext(on_list,join_rk,n)
+                {
+                  var ontext = '\nON ';
+                  var lg = on_list.length;
+                  if(lg>0){
+                    for (var i = 0; i < lg; i++){
+                      var kw = on_list[i];
+                      ontext += `t${join_rk}.${kw} = t${n}.${kw}`
+                      if(i!=lg-1){
+                        ontext += '\nAND '
+                      }
+                    }
+                  }else{
+                    ontext = '';
+                  }
+                  return ontext;
+                }
+                
+                var on_text = getOntext(on_list,join_rk,n);
+                if (table.length > 0){
+                  text += `\n${join_way}` + `\n(\n\tSELECT * FROM\n\t${table}\n\tWHERE pt = '${yesterday}'\n) t${n}` + on_text;
+                }else{
+                  text += '';
+                }
+          }
+
+          var tObj = document.getElementById('textarea');
+          tObj.value = 'SELECT\nt1.*\nFROM\n' + first_text + text + '\n;';
+          }
+    </script>
+
+</body></html>
