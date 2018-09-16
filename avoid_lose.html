@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="case_when.ico">
+
+    <title>防止回收表权限小工具</title>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="footer.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
+          <nav class="my-2 my-md-0 mr-md-3 nav">
+            <a class="nav-link p-2 text-dark" href="index.html">首页</a>
+            <a class="nav-link p-2 text-dark" href="case_when.html">快速 CASE WHEN</a>
+            <a class="nav-link p-2 text-dark" href="sql_tmp.html">SQL 模板生成</a>
+            <a class="nav-link p-2 active" href="avoid_lose.html">批量 LEFT JOIN</a>
+          </nav>
+        </div>
+    <div class="container">
+
+
+
+      <div class="py-5 text-center">
+        <h2>防止回收表权限小工具</h2>
+        <p class="lead">输入相应的表名，自动生成全关联表</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-6 order-md-2 mb-4">
+          <textarea class="form-control" id="inputtextarea" rows="26" placeholder="请输入你的全部表名，一行一张表！"></textarea>
+        </div>
+
+        <div class="col-md-6 order-md-2 mb-4">
+              <textarea class="form-control" id="textarea" rows="26" placeholder=""></textarea>
+            </div>
+  
+          </div>
+        
+          <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
+            
+      </div>
+
+      <footer class="text-muted text-center text-small footer">
+        <p class="mb-1">© 2018-2019 Clark Yu</p>
+        <ul class="list-inline">
+        </ul>
+      </footer>
+
+
+    
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+    function generate() {
+                
+        function getNowFormatDate() {
+        var date = new Date(new Date()-24*60*60*1000*2);
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+        }
+
+        var yesterday = getNowFormatDate();
+
+          function getRadioValue(radioName)
+          {
+            var radios = document.getElementsByName(radioName);
+            if(!radios)
+              return '';
+            for (var i = 0; i < radios.length; i++)
+            {
+              if (radios[i].checked)
+              return radios[i].value;
+            }
+              return '';
+          }
+          
+          var raw_text = document.getElementById('inputtextarea').value;
+          var table_list = raw_text.split("\n");
+            
+          
+          var lg = table_list.length;
+
+          var text = '';
+          for (var i = 1; i < lg; i++){
+            if(table_list[i].length>0)
+            {
+              text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${table_list[i]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
+            }
+          }
+          var first_text = `\n(\n\tSELECT pt \n\tFROM ${table_list[0]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n\tlimit 1\n) t1` ;
+
+
+          var tObj = document.getElementById('textarea');
+          if(raw_text.length > 0){
+            tObj.value = 'SELECT t1.pt\nFROM' + first_text + text + '\n;';
+          }else{
+            tObj.value = '请输入表名！'
+          }
+
+          }
+    </script>
+
+</body></html>
