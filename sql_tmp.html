@@ -40,6 +40,15 @@
                 <label for="table1">主表名称</label>
                 <input type="text" class="form-control" id="table1" placeholder="" value="">
               </div>
+
+              <div class="col-md-4 order-md-1">
+                <label for="outputName">是否加参数</label>
+                <select class="custom-select" id="jc">
+                    <option value=1>是</option>
+                    <option value=2>否</option>
+                  </select>
+              </div>
+
             </div>
 
             <hr class="mb-3">
@@ -270,11 +279,34 @@
           }
           
 
+
           var tObj = document.getElementById('textarea');
+          
+          var if_jc =  $(`#jc option:selected`).val();
+          if(if_jc == 1){
+              var jc = 'SET hive.execution.engine=mr;\nSET hive.exec.parallel=true;\nSET hive.exec.parallel.thread.number=132;\n\n';
+            }else{
+              var jc = '';
+            }
+          
+          var only_one = 0;
+          for (var i = 2; i <= total_table_num; i++){
+            if(document.getElementById(`table${i}`).value.length > 0){
+              only_one = 1
+              break;
+            }
+          }
+
+          console.log(only_one);
+          
           if(document.getElementById(`table1`).value.length > 0){
-            tObj.value = 'SELECT\n\nFROM\n' + first_text + text + '\n;';
+            if(only_one == 0){
+              tObj.value =  jc + `SELECT\n\nFROM ${table1}\nWHERE pt = '${yesterday}'` + text + '\n;';
+            }else{
+              tObj.value = jc + 'SELECT\n\nFROM\n' + first_text + text + '\n;';
+            }
           }else{
-            tObj.value = '请输入表名！'
+            tObj.value = '请输入表名！';
           }
 
           }
