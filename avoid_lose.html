@@ -18,11 +18,10 @@
           <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
           <nav class="my-2 my-md-0 mr-md-3 nav">
             <a class="nav-link p-2 text-dark" href="index.html">首页</a>
-            <a class="nav-link p-2 text-dark" href="sql_tmp.html">SQL 模板生成</a>
-            <a class="nav-link p-2 text-dark" href="case_when.html">快速 CASE WHEN</a>
-            <a class="nav-link p-2 active" href="avoid_lose.html" target="_blank">疯狂JOIN</a>
-            <a class="nav-link p-2 text-dark" href="https://regex101.com/" target="_blank">REGEX101</a>
-         
+            <a class="nav-link p-2 text-dark" href="sql_tmp.html"  data-toggle="tooltip" title="快速生成sql模板" >SQL 模板生成</a>
+            <a class="nav-link p-2 text-dark" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a>
+            <a class="nav-link p-2 active" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a>
+            <a class="nav-link p-2 text-dark" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a>
           </nav>
         </div>
     <div class="container">
@@ -120,6 +119,10 @@
           }
 
           }
+
+              $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
     </script>
 
 </body></html>
