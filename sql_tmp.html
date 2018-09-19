@@ -195,19 +195,13 @@
         <div class="col-md-5 order-md-2 mb-4">
               <textarea class="form-control" id="textarea" rows="26" placeholder="目前只支持最多五张表相关联！"></textarea>
             </div>
-  
-
-
 
           </div>
             
       </div>
 
-
-
-
       <footer class="text-muted text-center text-small footer">
-        <p class="mb-1">© 2018-2019 Clark Yu</p>
+        <p class="mb-1">© 2018-2019 Clark Yu · <span><a class= 'text-muted text-dark' href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span></p>
         <ul class="list-inline">
         </ul>
       </footer>
@@ -220,6 +214,16 @@
 
     <script>
     function generate() {
+
+        function check_kuming(table_name){
+          var re = /^(ods|dwb|dwb|dws|dim|rods|adm|sdm|rpt|app|tmp|hds]{3,4})_/;
+          var re_result = re.exec(table_name);
+          if(!re_result){
+            return table_name;
+          }else{
+            return  re_result[1] + '.' + table_name;
+          }
+        }
                 
         function getNowFormatDate() {
         var date = new Date(new Date()-24*60*60*1000);
@@ -253,6 +257,7 @@
           }
 
           var table1 = document.getElementById("table1").value;
+          table1 = check_kuming(table1);
           var first_text = `(\n\tSELECT\n\n\tFROM ${table1}\n\tWHERE pt = '${yesterday}'\n) t1`;
 
           total_table_num = 5;
@@ -260,6 +265,7 @@
           for (var i = 2; i <= total_table_num; i++){
                 var n = `${i}`;
                 var table = document.getElementById(`table${n}`).value;
+                table  = check_kuming(table);
                 var join_way = $(`#jw${n} option:selected`).text() + ' JOIN'; 
                 var join_rk  = $(`#on${n} option:selected`).val();
                 var on_list = document.getElementById(`kw${n}`).value.split(" ");
@@ -307,8 +313,6 @@
               break;
             }
           }
-
-          console.log(only_one);
           
           if(document.getElementById(`table1`).value.length > 0){
             if(only_one == 0){
@@ -325,6 +329,9 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+
+
+
     </script>
 
 </body></html>
