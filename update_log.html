@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="case_when.ico">
+
+    <title>更新日志</title>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="footer.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
+          <nav class="my-2 my-md-0 mr-md-3 nav">
+            <a class="nav-link p-2 text-dark" href="index.html">首页</a>
+            <a class="nav-link p-2 text-dark" href="sql_tmp.html"  data-toggle="tooltip" title="快速生成sql模板" >SQL 模板生成</a>
+            <a class="nav-link p-2 text-dark" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a>
+            <a class="nav-link p-2 text-dark" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a>
+            <a class="nav-link p-2 text-dark" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a>
+          </nav>
+        </div>
+    <div class="container">
+
+
+
+
+
+
+      <div class="py-5 text-center">
+        <h2>更新日志</h2>
+        <!-- <p class="lead">输入相应的表名，选择合适的关联方式以及其他参数，自动生成SQL模板</p> -->
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 order-md-1">
+        <div class="highlight">
+            <p><b>2018-09-19</b>&nbsp;&nbsp;&nbsp;在sql模板生成工具中增加自动补全库名功能（内部功能）</p>
+            <p><b>2018-09-18</b>&nbsp;&nbsp;&nbsp;修改导航栏 </p>
+            <p><b>2018-09-16</b>&nbsp;&nbsp;&nbsp;上线疯狂left join小工具，用于批量使用表（内部功能）</p>
+            <p><b>2018-09-13</b>&nbsp;&nbsp;&nbsp;上线SQL 模板快速生成小工具</p>
+            <p><b>2018-09-12</b>&nbsp;&nbsp;&nbsp;上线case when小工具</p>
+        </div>
+        </div>
+
+          </div>
+            
+      </div>
+
+      <footer class="text-muted text-center text-small footer">
+        <p class="mb-1">© 2018-2019 Clark Yu · <span><a class= 'text-muted text-dark' href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" style='text-decoration:none;'>更新日志</a></span></p>
+        <ul class="list-inline">
+        </ul>
+      </footer>
+
+
+    
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+    function generate() {
+
+        function check_kuming(table_name){
+          var re = /^(ods|dwb|dwb|dws|dim|rods|adm|sdm|rpt|app|tmp|hds]{3,4})_/;
+          var re_result = re.exec(table_name);
+          if(!re_result){
+            return table_name;
+          }else{
+            return  re_result[1] + '.' + table_name;
+          }
+        }
+                
+        function getNowFormatDate() {
+        var date = new Date(new Date()-24*60*60*1000);
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+        return currentdate;
+        }
+
+        var yesterday = getNowFormatDate();
+
+          function getRadioValue(radioName)
+          {
+            var radios = document.getElementsByName(radioName);
+            if(!radios)
+              return '';
+            for (var i = 0; i < radios.length; i++)
+            {
+              if (radios[i].checked)
+              return radios[i].value;
+            }
+              return '';
+          }
+
+          var table1 = document.getElementById("table1").value;
+          table1 = check_kuming(table1);
+          var first_text = `(\n\tSELECT\n\n\tFROM ${table1}\n\tWHERE pt = '${yesterday}'\n) t1`;
+
+          total_table_num = 5;
+          var text = '';
+          for (var i = 2; i <= total_table_num; i++){
+                var n = `${i}`;
+                var table = document.getElementById(`table${n}`).value;
+                table  = check_kuming(table);
+                var join_way = $(`#jw${n} option:selected`).text() + ' JOIN'; 
+                var join_rk  = $(`#on${n} option:selected`).val();
+                var on_list = document.getElementById(`kw${n}`).value.split(" ");
+                function getOntext(on_list,join_rk,n)
+                {
+                  var ontext = '\nON ';
+                  var lg = on_list.length;
+                  if(lg>0){
+                    for (var i = 0; i < lg; i++){
+                      var kw = on_list[i];
+                      ontext += `t${join_rk}.${kw} = t${n}.${kw}`
+                      if(i!=lg-1){
+                        ontext += '\nAND '
+                      }
+                    }
+                  }else{
+                    ontext = '';
+                  }
+                  return ontext;
+                }
+                
+                var on_text = getOntext(on_list,join_rk,n);
+                if (table.length > 0){
+                  text += `\n${join_way}` + `\n(\n\tSELECT\n\n\tFROM ${table}\n\tWHERE pt = '${yesterday}'\n)t${n}` + on_text;
+                }else{
+                  text += '';
+                }
+          }
+          
+
+
+          var tObj = document.getElementById('textarea');
+          
+          var if_jc =  $(`#jc option:selected`).val();
+          if(if_jc == 1){
+              var jc = 'SET hive.execution.engine=mr;\nSET hive.exec.parallel=true;\nSET hive.exec.parallel.thread.number=132;\n\n';
+            }else{
+              var jc = '';
+            }
+          
+          var only_one = 0;
+          for (var i = 2; i <= total_table_num; i++){
+            if(document.getElementById(`table${i}`).value.length > 0){
+              only_one = 1
+              break;
+            }
+          }
+          
+          if(document.getElementById(`table1`).value.length > 0){
+            if(only_one == 0){
+              tObj.value =  jc + `SELECT\n\nFROM ${table1}\nWHERE pt = '${yesterday}'` + text + '\n;';
+            }else{
+              tObj.value = jc + 'SELECT\n\nFROM\n' + first_text + text + '\n;';
+            }
+          }else{
+            tObj.value = '请输入表名！';
+          }
+
+          }
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+
+
+    </script>
+
+</body></html>
