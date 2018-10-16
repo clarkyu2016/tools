@@ -98,19 +98,53 @@
           
           var raw_text = document.getElementById('inputtextarea').value;
           var table_list = raw_text.split("\n");
-            
+          var if_mail = 0 //判断是否直接粘贴自邮箱 
           
           var lg = table_list.length;
 
-          var text = '';
           for (var i = 1; i < lg; i++){
-            if(table_list[i].length>0)
-            {
-              text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${table_list[i]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
+            if(table_list[i].indexOf("权限类型")!= -1){
+              if_mail = 1;
+              break;
             }
           }
-          var first_text = `\n(\n\tSELECT pt \n\tFROM ${table_list[0]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n\tlimit 1\n) t1` ;
 
+
+          if (if_mail == 0){
+            var text = '';
+            for (var i = 1; i < lg; i++){
+              if(table_list[i].length>0)
+              {
+                text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${table_list[i]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
+              }
+            }
+            var first_text = `\n(\n\tSELECT pt \n\tFROM ${table_list[0]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n\tlimit 1\n) t1` ;
+          } else {
+            console.log(if_mail);
+            var text = '';
+            var first_start = 0;
+            
+            // 获取起始列
+            for (var i = 1; i < lg; i++){
+              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1){
+                first_start = i;
+                break;
+              }
+            }
+            
+
+
+            for (var i = first_start + 1 ; i < lg; i++){
+              var mail_split = table_list[i].split("\t");
+              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1)
+              {
+                text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${mail_split[2]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
+              }
+            }
+
+            var mail_split_2 = table_list[first_start].split("\t");
+            var first_text = `\n(\n\tSELECT pt \n\tFROM ${mail_split_2[2]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n\tlimit 1\n) t1` ;
+          }
 
           var tObj = document.getElementById('textarea');
           if(raw_text.length > 0){
