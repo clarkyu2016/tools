@@ -102,14 +102,13 @@
           
           var lg = table_list.length;
 
-          for (var i = 1; i < lg; i++){
+          for (var i = 0; i < lg; i++){
             if(table_list[i].indexOf("权限类型")!= -1){
               if_mail = 1;
               break;
             }
           }
-
-
+          
           if (if_mail == 0){
             var text = '';
             for (var i = 1; i < lg; i++){
