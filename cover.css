@@ -30,4 +30,9 @@
    font-weight: 700;
  }
  
- .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+ .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);}
+
+ .popover{ 
+  /* width:100%; */
+  max-width:1000px !important;
+}

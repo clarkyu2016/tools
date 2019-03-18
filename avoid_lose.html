@@ -11,6 +11,11 @@
 
     <link rel="stylesheet" href="bootstrap.min.css">
     <link href="cover.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
   </head>
 
   <body class="bg-light">
@@ -18,19 +23,18 @@
           <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
           <nav class="my-2 my-md-0 mr-md-3 nav">
             <a class="nav-link p-2 text-dark" href="index.html">首页</a>
-            <a class="nav-link p-2 text-dark" href="sql_tmp.html"  data-toggle="tooltip" title="快速生成sql模板" >SQL 模板生成</a>
+            <!-- <a class="nav-link p-2 text-dark" href="sql_tmp.html"  data-toggle="tooltip" title="快速生成sql模板" >SQL 模板生成</a> -->
             <a class="nav-link p-2 text-dark" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a>
             <a class="nav-link p-2 active" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a>
+            <a class="nav-link p-2 text-dark" href="lab.html" data-toggle="tooltip" title="sql实验室" >实验室</a>
             <a class="nav-link p-2 text-dark" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a>
           </nav>
         </div>
     <div class="container">
 
-
-
       <div class="py-5 text-center">
         <h2>疯狂 LEFT JOIN</h2>
-        <p class="lead">输入相应的表名，自动生成全关联表</p>
+        <p class="lead">输入相应的表名，自动生成全关联表<i style="padding-left:10px;" class="fa fa-question-circle" aria-hidden="true" data-toggle="popover" title="内部使用指南"></i></p>
       </div>
 
       <div class="row">
@@ -51,7 +55,9 @@
 
       <br>
       <footer class="text-muted text-center text-small footer">
-          <p class="mb-1">© 2018-2019 Clark Yu · <span><a class= 'text-muted text-dark' href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a class= 'text-muted text-dark' href="comment.html" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a></span></p>
+          <p class="mb-1">© 2018-2019 Clark Yu · <span><a class= 'text-muted text-dark' href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a class= 'text-muted text-dark' href="https://zhuanlan.zhihu.com/p/44502560" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a></span> · <span id="busuanzi_container_page_pv">
+  本工具总使用量<span id="busuanzi_value_page_pv"></span>次
+</span></p>
           <ul class="list-inline">
           </ul>
         </footer>
@@ -61,7 +67,6 @@
       <script src="jquery.slim.min.js"></script>
       <script src="popper.min.js"></script>
       <script src="bootstrap.min.js"></script>
-
     <script>
     function generate() {
                 
@@ -125,7 +130,7 @@
             
             // 获取起始列
             for (var i = 1; i < lg; i++){
-              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1){
+              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1&&table_list[i].indexOf("本邮件发自")== -1){
                 first_start = i;
                 break;
               }
@@ -135,7 +140,7 @@
 
             for (var i = first_start + 1 ; i < lg; i++){
               var mail_split = table_list[i].split("\t");
-              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1)
+              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1&&table_list[i].indexOf("本邮件发自")== -1)
               {
                 text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${mail_split[2]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
               }
@@ -154,9 +159,20 @@
 
           }
 
-              $(function () {
+                  $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+
+    $(document).ready(function(){
+    $('[data-toggle="popover"]').popover({
+        placement : 'bottom',
+		    trigger : 'hover',
+        html : true,
+        //content : '<img src="test.gif" style="width:100%">'
+      content : '在foxmail或者腾讯邮箱中点击表过期的邮件正文，全选(ctrl+A)复制粘贴即可！'
+    });
+    })
+
     </script>
 
 </body></html>

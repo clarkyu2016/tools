@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="case_when.ico">
+
+    <title>实验室</title>
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link href="footer.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+  </head>
+
+  <body class="bg-light">
+      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
+          <nav class="my-2 my-md-0 mr-md-3 nav">
+            <a class="nav-link p-2 text-dark" href="index.html">首页</a>
+            <!-- <a class="nav-link p-2 text-dark" href="sql_tmp.html"  data-toggle="tooltip" title="快速生成sql模板" >SQL 模板生成</a> -->
+            <a class="nav-link p-2 text-dark" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a>
+            <a class="nav-link p-2 text-dark" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a>
+            <a class="nav-link p-2 active" href="lab.html" data-toggle="tooltip" title="sql实验室" >实验室</a>
+            <a class="nav-link p-2 text-dark" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a>
+          </nav>
+        </div>
+    <div class="container">
+      <div class="py-5 text-center">
+        <h2>实验室</h2>
+        <p class="lead">尝试一些小工具让你更快地书写SQL</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-12 order-md-1">
+          <form class="needs-validation" novalidate="">
+
+              <div class="row">
+                  <div class="col-md-3 mb-2">
+                      <a class="nav-link p-2 text-dark" href="lab_date.html" target="_blank"><p>A. 日期生成器</p></a>
+                  </div>
+                  
+                  <div class="col-md-9 mb-2">
+                    <p class="nav-link p-2 text-dark" >自动生成类似between date_add('2019-02-11',-29) and '2019-02-11'的语句！</p>
+                  </div>
+
+                  <div class="col-md-3 mb-2">
+                      <a class="nav-link p-2 text-dark" href="lab_loop.html" target="_blank"><p>B. 循环字段生成器</p></a>
+                  </div>
+                  
+                  <div class="col-md-9 mb-2">
+                    <p class="nav-link p-2 text-dark" >适用于当出现n个字段，需要写n个例如sum([字段名])语句的情况！</p>
+                  </div>
+
+
+                  <div class="col-md-3 mb-2">
+                    <a class="nav-link p-2 text-dark" href="lab_join.html" target="_blank"><p>C. 多表连接生成器</p></a>
+                </div>
+                
+                <div class="col-md-9 mb-2">
+                  <p class="nav-link p-2 text-dark" >适用于要用类似的字段关联n张表的情况！</p>
+                </div>
+
+              </div>
+
+
+            <hr class="mb-3">
+
+          </form>
+        
+        </div>
+
+          </div>
+            
+      </div>
+
+      <footer class="text-muted text-center text-small footer">
+          <p class="mb-1">© 2018-2019 Clark Yu · <span><a class= 'text-muted text-dark' href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a class= 'text-muted text-dark' href="https://zhuanlan.zhihu.com/p/44502560" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a> · </span><span id="busuanzi_container_page_pv">
+  本工具总使用量<span id="busuanzi_value_page_pv"></span>次
+</span></p>
+          <ul class="list-inline">
+          </ul>
+        </footer>
+    </div>
+
+
+
+    <script src="jquery.slim.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script>
+    
+    // 配置日历
+    $('#datepicker').datepicker({
+        weekStart: 1,
+        daysOfWeekHighlighted: "6,0",
+        autoclose: true,
+        todayHighlight: true,
+        language:"zh-CN"
+    });
+
+    var dateTime=new Date();
+    dateTime=dateTime.setDate(dateTime.getDate()-1);
+    dateTime=new Date(dateTime);
+    console.log(dateTime);
+    $('#datepicker').datepicker("setDate", dateTime);
+
+    //生成日期
+      function generateDate() {
+
+          var daysLast = document.getElementById("daysLast").value;
+          console.log(daysLast);
+          var dateName = document.getElementById("datepicker").value;
+          if(daysLast.length < 1){
+            daysLast = 30;
+          }
+
+          var r = /^\-?[1-9][0-9]*$/;　
+          flag = r.test(daysLast);
+          if (flag == true){
+            daysLast = parseInt(daysLast)
+            var tObj = document.getElementById('textarea');
+            if(daysLast > 0){
+              daysLast = daysLast - 1
+              tObj.value = "between date_add('" + dateName + "',-" + daysLast + ") and " + "'" + dateName + "'";
+            }else{
+              daysLast = daysLast + 1
+              tObj.value =  "between '" + dateName + "' and " + "date_add('" + dateName + "'," + -daysLast + ")";
+            }
+
+          }else {
+            var tObj = document.getElementById('textarea');
+            tObj.value = '请输入正确的时间区间！';
+          }
+          }
+
+        $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    </script>
+</body></html>
