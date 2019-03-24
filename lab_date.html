@@ -96,6 +96,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
     <script>
     
+
     // 配置日历
     $('#datepicker').datepicker({
         weekStart: 1,
@@ -108,30 +109,53 @@
     var dateTime=new Date();
     dateTime=dateTime.setDate(dateTime.getDate()-1);
     dateTime=new Date(dateTime);
-    console.log(dateTime);
+    
     $('#datepicker').datepicker("setDate", dateTime);
 
+    function dateAddDays(dataStr,dayCount) {
+    var strdate=dataStr; //日期字符串
+    var isdate = new Date(strdate.replace(/-/g,"/"));  //把日期字符串转换成日期格式
+    isdate = new Date((isdate/1000+(86400*dayCount))*1000);  //日期加1天
+    month = (isdate.getMonth()+1);
+    
+    if(month<10){
+      month = "0" + month
+    };
+
+    day_s = (isdate.getDate());
+    if(day_s<10){
+      day_s = "0" + day_s
+    };
+
+    var pdate = isdate.getFullYear()+"-"+month+"-"+day_s;   //把日期格式转换成字符串
+ 
+    return pdate;
+    }
     //生成日期
       function generateDate() {
 
           var daysLast = document.getElementById("daysLast").value;
-          console.log(daysLast);
+
           var dateName = document.getElementById("datepicker").value;
           if(daysLast.length < 1){
             daysLast = 30;
           }
 
-          var r = /^\-?[1-9][0-9]*$/;　
+          var r = /^\-?[2-9][0-9]*$/;　
           flag = r.test(daysLast);
           if (flag == true){
+
             daysLast = parseInt(daysLast)
+            // console.log(daysLast);
             var tObj = document.getElementById('textarea');
+
             if(daysLast > 0){
-              daysLast = daysLast - 1
-              tObj.value = "between date_add('" + dateName + "',-" + daysLast + ") and " + "'" + dateName + "'";
+              console.log(dateName);
+              var new_date = dateAddDays(dateName,-(daysLast-1));
+              tObj.value = "between '" + new_date + "' and " + "'" + dateName + "'";
             }else{
-              daysLast = daysLast + 1
-              tObj.value =  "between '" + dateName + "' and " + "date_add('" + dateName + "'," + -daysLast + ")";
+              var new_date = dateAddDays(dateName,-(daysLast+1));
+              tObj.value =  "between '" + dateName + "' and " + "'" + new_date + "'";
             }
 
           }else {

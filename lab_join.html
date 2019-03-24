@@ -144,7 +144,8 @@
                   return text_total;
 
             }else{
-                  var text_total = `select\nfrom ${raw_table}_1 t1\n`; //首表
+                var text_total = `\nfrom ${raw_table}_1 t1\n`; //首表
+                  // var text_total = `select\nfrom ${raw_table}_1 t1\n`; //首表
                 for (var i = 0; i < raw_num; i++)
                 {
                   var join_info = '';
@@ -183,7 +184,8 @@
                   return text_total;
                 
             }else{
-                var text_total = `select\nfrom ${table_list[0]} t1\n`; //首表
+                // var text_total = `select\nfrom ${table_list[0]} t1\n`; //首表
+                var text_total = `\nfrom ${table_list[0]} t1\n`; //首表
                 console.log(lg_slf_table);
                 for (var i = 0; i < lg_slf_table-1; i++)
                 {
