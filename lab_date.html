@@ -141,7 +141,7 @@
             daysLast = 30;
           }
 
-          var r = /^\-?[2-9][0-9]*$/;　
+          var r = /^\-?[0-9][0-9]*$/;　
           flag = r.test(daysLast);
           if (flag == true){
 
@@ -149,13 +149,16 @@
             // console.log(daysLast);
             var tObj = document.getElementById('textarea');
 
-            if(daysLast > 0){
+            if(daysLast > 1&&daysLast<100000){
               console.log(dateName);
               var new_date = dateAddDays(dateName,-(daysLast-1));
               tObj.value = "between '" + new_date + "' and " + "'" + dateName + "'";
-            }else{
+            }else if(daysLast <-1&&daysLast>-100000){
               var new_date = dateAddDays(dateName,-(daysLast+1));
               tObj.value =  "between '" + dateName + "' and " + "'" + new_date + "'";
+            }else{
+                   var tObj = document.getElementById('textarea');
+            tObj.value = '请输入正确的时间区间！';
             }
 
           }else {
