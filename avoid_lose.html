@@ -130,7 +130,7 @@
             
             // 获取起始列
             for (var i = 1; i < lg; i++){
-              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1&&table_list[i].indexOf("本邮件发自")== -1){
+              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1&&table_list[i].indexOf("本邮件发自")== -1&&table_list[i].indexOf("注意")== -1){
                 first_start = i;
                 break;
               }
@@ -140,7 +140,7 @@
 
             for (var i = first_start + 1 ; i < lg; i++){
               var mail_split = table_list[i].split("\t");
-              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1&&table_list[i].indexOf("本邮件发自")== -1)
+              if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1&&table_list[i].indexOf("本邮件发自")== -1&&table_list[i].indexOf("注意")== -1)
               {
                 text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${mail_split[2]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
               }
