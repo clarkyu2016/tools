@@ -35,6 +35,20 @@
       <div class="py-5 text-center">
         <h2>疯狂 LEFT JOIN</h2>
         <p class="lead">输入相应的表名，自动生成全关联表<i style="padding-left:10px;" class="fa fa-question-circle" aria-hidden="true" data-toggle="popover" title="内部使用指南"></i></p>
+
+
+                <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="leftclose" id="leftclose1" value=1 checked="checked">
+                    <label class="form-check-label" for="leftclose1">select法</label>
+                  </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="leftclose" id="leftclose2" value=2>
+                    <label class="form-check-label" for="leftclose2">left join法</label>
+                  </div>
+                </div>
+
+              
       </div>
 
       <div class="row">
@@ -104,7 +118,8 @@
           var raw_text = document.getElementById('inputtextarea').value;
           var table_list = raw_text.split("\n");
           var if_mail = 0 //判断是否直接粘贴自邮箱 
-          
+          var leftclose = getRadioValue("leftclose") * 1;
+
           var lg = table_list.length;
 
           for (var i = 0; i < lg; i++){
@@ -119,13 +134,14 @@
             for (var i = 1; i < lg; i++){
               if(table_list[i].length>0)
               {
-                text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${table_list[i]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
+                text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${table_list[i]}\n\tWHERE pt = '${yesterday}'\n\tlimit 1\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
               }
             }
-            var first_text = `\n(\n\tSELECT pt \n\tFROM ${table_list[0]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n\tlimit 1\n) t1` ;
+            var first_text = `\n(\n\tSELECT pt \n\tFROM ${table_list[0]}\n\tWHERE pt = '${yesterday}'\n\tlimit 1\n) t1` ;
           } else {
             console.log(if_mail);
             var text = '';
+            var text_1 = ''
             var first_start = 0;
             
             // 获取起始列
@@ -143,17 +159,23 @@
               if(table_list[i].length>0&&table_list[i].indexOf("权限类型")== -1&&table_list[i].indexOf("权限过期策略")==-1&&table_list[i].indexOf("过期之后如有需要")== -1&&table_list[i].indexOf("本邮件发自")== -1&&table_list[i].indexOf("注意")== -1)
               {
                 text += `\nleft join` + `\n(\n\tSELECT pt \n\tFROM ${mail_split[2]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n) t${i+1} \non t1.pt = t${i+1}.pt` ;
+
+                text_1 += ` SELECT pt FROM ${mail_split[2]} WHERE pt = '${yesterday}' limit 1;\n` ;
               }
             }
 
             var mail_split_2 = table_list[first_start].split("\t");
             var first_text = `\n(\n\tSELECT pt \n\tFROM ${mail_split_2[2]}\n\tWHERE pt = '${yesterday}'\n\tGROUP BY pt\n\tlimit 1\n) t1` ;
+            var first_text_1 = `SELECT pt FROM ${mail_split_2[2]} WHERE pt = '${yesterday}' limit 1;\n` ;
           }
 
           var tObj = document.getElementById('textarea');
-          if(raw_text.length > 0){
+          if(raw_text.length > 0 && leftclose == 2){
             tObj.value = 'SELECT t1.pt\nFROM' + first_text + text + '\n;';
-          }else{
+          }
+          else if(raw_text.length > 0 && leftclose == 1){
+            tObj.value = first_text_1 + text_1;}
+          else{
             tObj.value = '请输入表名！'
           }
 
@@ -166,7 +188,7 @@
     $(document).ready(function(){
     $('[data-toggle="popover"]').popover({
         placement : 'bottom',
-		    trigger : 'hover',
+        trigger : 'hover',
         html : true,
         //content : '<img src="test.gif" style="width:100%">'
       content : '在foxmail或者腾讯邮箱中点击表过期的邮件正文，全选(ctrl+A)复制粘贴即可！'
