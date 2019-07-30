@@ -1,225 +1,307 @@
 <!DOCTYPE html>
-
-<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="zh-cn">
+  <head>
+    <title>多表连接生成器 - Tools for SQL</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
     <link rel="icon" href="case_when.ico">
-
-    <title>实验室 - 多表连接生成器</title>
-
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link href="cover.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-
-
-  </head>
-
-  <body class="bg-light">
-      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-          <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
-          <nav class="my-2 my-md-0 mr-md-3 nav">
-            <a class="nav-link p-2 text-dark" href="index.html">首页</a>
-            <!-- <a class="nav-link p-2 text-dark" href="sql_tmp.html"  data-toggle="tooltip" title="快速生成sql模板" >SQL 模板生成</a> -->
-            <a class="nav-link p-2 text-dark" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a>
-            <a class="nav-link p-2 text-dark" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a>
-            <a class="nav-link p-2 active" href="lab.html" data-toggle="tooltip" title="sql实验室" >实验室</a>
-            <a class="nav-link p-2 text-dark" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a>
-          </nav>
-        </div>
-    <div class="container">
-
-      <div class="py-5 text-center">
-        <h2>多表连接生成器</h2>
-        <p class="lead">适用于要用类似的字段关联n张表的情况！</p>
-      </div>
-
-      <div class="row">
-
-          <div class="col-md-6 order-md-1">
-            <form class="needs-validation" novalidate="">
-  
-                <div class="row">
-                    <div class="col-md-6 mb-2">
-                      <label for="inputName">输入表名</label>
-                      <input type="text" class="form-control" id="inputName" placeholder="" value="">
-                    </div>
-                    <div class="col-md-6 mb-2">
-                      <label for="outputName">要关联N张表</label>
-                      <input type="text" class="form-control" id="inputnum" placeholder="请输入数字n" value="" maxlength="3" onkeyup="this.value=this.value.replace(/\D/g,'')" >
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <hr class="mb-3">
-                      <label for="inputName">自定义表名</label>
-                    <textarea class="form-control" id="raw_text_input" rows="14" placeholder="如果是自定义表名(请不要填写上面两格)，请直接把每个表复制在这里，一行一个表（如图所示）：&#10;table_1&#10;table_2&#10;table_3&#10;table_4&#10;"></textarea>
-                  </div>
-
-                    <div class="col-md-8 mb-2">
-                        <label for="inputName">输入需要关联的列名</label>
-                        <input type="text" class="form-control" id="join_col" placeholder="请按照空格分隔" value="">
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="outputName">关联方式</label>
-                        <select class="custom-select" id="jw">
-                            <option value=1>left</option>
-                            <option value=2>inner</option>
-                            <option value=3>right</option>
-                            <option value=3>union all</option>
-                          </select>
-                    </div>
-                </div>
-            </form>
-          
-          </div>
-  
-          <div class="col-md-6 order-md-2 mb-4">
-                <textarea class="form-control" id="textarea" rows="24" placeholder="预期效果： &#10;select * from table_1&#10left join table_2 on t1.col = t2.col&#10left join table_3 on t1.col = t3.col&#10left join table_4 on t1.col = t4.col"></textarea>
-          </div>
     
-            </div>
-        
-          <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
-            
-      </div>
-
-      <br>
-      <footer class="text-muted text-center text-small footer">
-          <p class="mb-1">© 2018-2019 Clark Yu · <span><a class= 'text-muted text-dark' href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a class= 'text-muted text-dark' href="https://zhuanlan.zhihu.com/p/44502560" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a></span> · <span id="busuanzi_container_page_pv">
-  本工具总使用量<span id="busuanzi_value_page_pv"></span>次
-</span></p>
-          <ul class="list-inline">
-          </ul>
-        </footer>
-
-    
-
-      <script src="jquery.slim.min.js"></script>
-      <script src="popper.min.js"></script>
-      <script src="bootstrap.min.js"></script>
     <script>
-    function generate() { 
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?e1b4211459a3c33fcec7f6cf2a699109";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+        
+  </head>
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  
+  <div class="site-wrap"  id="home-section">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+   
+    <div class="container d-none d-lg-block">
+      <div class="row">
+        <div class="col-12 text-center mb-4 mt-5">
+            <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">Tools for SQL<span class="text-primary">.</span> </a></h1>
+          </div>
+      </div>
+    </div>
+    <header class="site-navbar py-md-4 js-sticky-header site-navbar-target" role="banner">
+
+      <div class="container">
+        <div class="row align-items-center">
           
-          var text = '';
-          var raw_table = document.getElementById('inputName').value;
-          var raw_num = document.getElementById('inputnum').value;
-          var lg_table = raw_table.length;
+          <div class="col-6 col-md-6 col-xl-2  d-block d-lg-none">
+            <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">Tools for SQL<span class="text-primary">.</span> </a></h1>
+          </div>
 
-          // 自定义表格
-          var slf_table = document.getElementById('raw_text_input').value;
-          var table_list = slf_table.split("\n");
-          var lg_slf_table = table_list.length;
+          <div class="col-12 col-md-10 main-menu">
+            <nav class="site-navigation position-relative text-right" role="navigation">
 
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a class="nav-link" href="index.html">首页</a></li>
+                <li><a class="nav-link" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a></li>
+                <li><a class="nav-link" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a></li>
+                <li><a class="nav-link" href="lab_date.html" data-toggle="tooltip" title="时间生成器" >最近N天</a></li>
+                <li><a class="nav-link" href="lab.html" data-toggle="tooltip" title="sql实验室"  style="color:#00d2b5">实验室</a></li>
+                <li><a class="nav-link" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a></li>
 
-          // 关联表名
-          var join_col = document.getElementById('join_col').value;
-          var join_col_list = join_col.split(" ");
-          var lg_join_col = join_col_list.length;
-
-          var join_way = $(`#jw option:selected`).text();
-
-          function regular_case(join_col_list,raw_num,raw_table,join_way)
-          {
-            if(join_way == 'union all'){
-              var text_total = ''
-              var join_info = '';
-                  for (var j = 0; j < lg_join_col; j++)
-                  {
-                    join_info += `${join_col_list[j]}`;
-                    if(j < lg_join_col - 1 ){
-                      join_info += ' , ';
-                    }
-                  }
-
-                  for (var i = 0; i < raw_num; i++){
-                    text_total += `select ${join_info} from ${raw_table}_${i+1}`;
-                    if(i < raw_num - 1 ){
-                      text_total += `\n${join_way}\n`;
-                    }
-                  }
-                  return text_total;
-
-            }else{
-                var text_total = `\nfrom ${raw_table}_1 t1\n`; //首表
-                  // var text_total = `select\nfrom ${raw_table}_1 t1\n`; //首表
-                for (var i = 0; i < raw_num; i++)
-                {
-                  var join_info = '';
-                  for (var j = 0; j < lg_join_col; j++)
-                  {
-                    join_info += `t1.${join_col_list[j]} = t${i+2}.${join_col_list[j]}`;
-                    if(j < lg_join_col - 1 ){
-                      join_info += ' and ';
-                    }
-                  }
-                  text_total += `${join_way} join ` + `${raw_table}_${i+2} t${i+2} on ` + join_info + `\n` ; 
-                }
-                return text_total;
-            }
-          }
+              </ul>
+            </nav>
+          </div>
 
 
-          function irregular_case(table_list,lg_slf_table,join_way,join_col_list)
-          {
-            if(join_way == 'union all'){
-              var text_total = ''
-              var join_info = '';
-                  for (var j = 0; j < lg_join_col; j++)
-                  {
-                    join_info += `${join_col_list[j]}`;
-                    if(j < lg_join_col - 1 ){
-                      join_info += ' , ';
-                    }
-                  }
-                  for (var i = 0; i < lg_slf_table; i++){
-                    text_total += `select ${join_info} from ${table_list[i]}`;
-                    if(i < lg_slf_table - 1 ){
-                      text_total += `\n${join_way}\n`;
-                    }
-                  }
-                  return text_total;
+          <div class="col-6 col-md-6 d-inline-block d-lg-none ml-md-0" ><a href="#" class="site-menu-toggle js-menu-toggle text-black float-right"><span class="icon-menu h3"></span></a></div>
+
+        </div>
+      </div>
+      
+    </header>
+    
+
+  
+    <div class="site-section bg-light" id="contact-section" style="padding-top:2em">
+      <div class="container">
+          <div class="py-5 text-center" style="margin-top: 45px;">
+              <p class="lead">多表连接生成器：适用于要用类似的字段关联n张表的情况！</p>
+            </div>
+      
+            <div class="row">
+      
+                <div class="col-md-6 order-md-1">
+                  <form class="needs-validation" novalidate="">
+        
+                      <div class="row">
+                          <div class="col-md-6 mb-2">
+                            <label for="inputName">输入表名</label>
+                            <input type="text" class="form-control rounded-0" id="inputName" placeholder="" value="">
+                          </div>
+                          <div class="col-md-6 mb-2">
+                            <label for="outputName">要关联N张表</label>
+                            <input type="text" class="form-control  rounded-0" id="inputnum" placeholder="请输入数字n" value="" maxlength="3" onkeyup="this.value=this.value.replace(/\D/g,'')" >
+                          </div>
+      
+                          <div class="col-md-12 mb-3">
+                              <hr class="mb-3">
+                            <label for="inputName">自定义表名</label>
+                          <textarea class="form-control  rounded-0" id="raw_text_input" rows="14" placeholder="如果是自定义表名(请不要填写上面两格)，请直接把每个表复制在这里，一行一个表（如图所示）：&#10;table_1&#10;table_2&#10;table_3&#10;table_4&#10;"></textarea>
+                        </div>
+      
+                          <div class="col-md-8 mb-2">
+                              <label for="inputName">输入需要关联的列名</label>
+                              <input type="text" class="form-control rounded-0" id="join_col" placeholder="请按照空格分隔" value="">
+                          </div>
+      
+                          <div class="col-md-4 mb-3">
+                              <label for="outputName">关联方式</label>
+                              <select class="custom-select" id="jw">
+                                  <option value=1>left</option>
+                                  <option value=2>inner</option>
+                                  <option value=3>right</option>
+                                  <option value=3>union all</option>
+                                </select>
+                          </div>
+                      </div>
+                  </form>
                 
-            }else{
-                // var text_total = `select\nfrom ${table_list[0]} t1\n`; //首表
-                var text_total = `\nfrom ${table_list[0]} t1\n`; //首表
-                console.log(lg_slf_table);
-                for (var i = 0; i < lg_slf_table-1; i++)
-                {
-                  var join_info = '';
-                  for (var j = 0; j < lg_join_col; j++)
-                  {
-                    join_info += `t1.${join_col_list[j]} = t${i+2}.${join_col_list[j]}`;
-                    if(j < lg_join_col - 1 ){
-                      join_info += ' and ';
+                </div>
+        
+                <div class="col-md-6 order-md-2 mb-4">
+                      <textarea class="form-control rounded-0" id="textarea" rows="24" placeholder="预期效果： &#10;select * from table_1&#10left join table_2 on t1.col = t2.col&#10left join table_3 on t1.col = t3.col&#10left join table_4 on t1.col = t4.col"></textarea>
+                </div>
+          
+                  </div>
+              
+                <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
+              
+        </div>
+    </div>
+
+    <div class="footer py-5 border-top text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="mb-0">
+              <p class="mb-1">© 2018-2019 Clark Yu · <span><a href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a href="https://zhuanlan.zhihu.com/p/44502560" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a></span> · <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+     
+    
+  </div> <!-- .site-wrap -->
+
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/jquery.countdown.min.js"></script>
+  <script src="js/bootstrap-datepicker.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.fancybox.min.js"></script>
+  <script src="js/jquery.sticky.js"></script>
+
+  
+  <script src="js/main.js"></script>
+  <script>
+      function generate() { 
+            
+            var text = '';
+            var raw_table = document.getElementById('inputName').value;
+            var raw_num = document.getElementById('inputnum').value;
+            var lg_table = raw_table.length;
+  
+            // 自定义表格
+            var slf_table = document.getElementById('raw_text_input').value;
+            var table_list = slf_table.split("\n");
+            var lg_slf_table = table_list.length;
+  
+  
+            // 关联表名
+            var join_col = document.getElementById('join_col').value;
+            var join_col_list = join_col.split(" ");
+            var lg_join_col = join_col_list.length;
+  
+            var join_way = $(`#jw option:selected`).text();
+  
+            function regular_case(join_col_list,raw_num,raw_table,join_way)
+            {
+              if(join_way == 'union all'){
+                var text_total = ''
+                var join_info = '';
+                    for (var j = 0; j < lg_join_col; j++)
+                    {
+                      join_info += `${join_col_list[j]}`;
+                      if(j < lg_join_col - 1 ){
+                        join_info += ' , ';
+                      }
                     }
+  
+                    for (var i = 0; i < raw_num; i++){
+                      text_total += `select ${join_info} from ${raw_table}_${i+1}`;
+                      if(i < raw_num - 1 ){
+                        text_total += `\n${join_way}\n`;
+                      }
+                    }
+                    return text_total;
+  
+              }else{
+                  var text_total = `\nfrom ${raw_table}_1 t1\n`; //首表
+                    // var text_total = `select\nfrom ${raw_table}_1 t1\n`; //首表
+                  for (var i = 0; i < raw_num; i++)
+                  {
+                    var join_info = '';
+                    for (var j = 0; j < lg_join_col; j++)
+                    {
+                      join_info += `t1.${join_col_list[j]} = t${i+2}.${join_col_list[j]}`;
+                      if(j < lg_join_col - 1 ){
+                        join_info += ' and ';
+                      }
+                    }
+                    text_total += `${join_way} join ` + `${raw_table}_${i+2} t${i+2} on ` + join_info + `\n` ; 
                   }
-                text_total += `${join_way} join ` + `${table_list[i+1]} t${i+2} on ` + join_info + `\n` ; 
-                }
-                return text_total;
+                  return text_total;
+              }
             }
-
-          }
-
-
-          var tObj = document.getElementById('textarea');
-          if(lg_table > 0 && raw_num > 0){
-            tObj.value = regular_case(join_col_list,raw_num,raw_table,join_way);
-          }else if(lg_slf_table >0){
-            tObj.value = irregular_case(table_list,lg_slf_table,join_way,join_col_list);
-          }else{
-            tObj.value = '请检查你的输入！'
-          }
-
-    }
-
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-
-    </script>
-
-</body></html>
+  
+  
+            function irregular_case(table_list,lg_slf_table,join_way,join_col_list)
+            {
+              if(join_way == 'union all'){
+                var text_total = ''
+                var join_info = '';
+                    for (var j = 0; j < lg_join_col; j++)
+                    {
+                      join_info += `${join_col_list[j]}`;
+                      if(j < lg_join_col - 1 ){
+                        join_info += ' , ';
+                      }
+                    }
+                    for (var i = 0; i < lg_slf_table; i++){
+                      text_total += `select ${join_info} from ${table_list[i]}`;
+                      if(i < lg_slf_table - 1 ){
+                        text_total += `\n${join_way}\n`;
+                      }
+                    }
+                    return text_total;
+                  
+              }else{
+                  // var text_total = `select\nfrom ${table_list[0]} t1\n`; //首表
+                  var text_total = `\nfrom ${table_list[0]} t1\n`; //首表
+                  console.log(lg_slf_table);
+                  for (var i = 0; i < lg_slf_table-1; i++)
+                  {
+                    var join_info = '';
+                    for (var j = 0; j < lg_join_col; j++)
+                    {
+                      join_info += `t1.${join_col_list[j]} = t${i+2}.${join_col_list[j]}`;
+                      if(j < lg_join_col - 1 ){
+                        join_info += ' and ';
+                      }
+                    }
+                  text_total += `${join_way} join ` + `${table_list[i+1]} t${i+2} on ` + join_info + `\n` ; 
+                  }
+                  return text_total;
+              }
+  
+            }
+  
+  
+            var tObj = document.getElementById('textarea');
+            if(lg_table > 0 && raw_num > 0){
+              tObj.value = regular_case(join_col_list,raw_num,raw_table,join_way);
+            }else if(lg_slf_table >0){
+              tObj.value = irregular_case(table_list,lg_slf_table,join_way,join_col_list);
+            }else{
+              tObj.value = '请检查你的输入！'
+            }
+  
+      }
+  
+      $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+      })
+  
+      </script>
+  </body>
+</html>

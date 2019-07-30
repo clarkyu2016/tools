@@ -1,65 +1,162 @@
 <!DOCTYPE html>
-<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="case_when.ico">
-
+<html lang="zh-cn">
+  <head>
     <title>Tools for SQL</title>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link href="cover.css" rel="stylesheet">
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="icon" href="case_when.ico">
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?e1b4211459a3c33fcec7f6cf2a699109";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
+
   </head>
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  
+  <div class="site-wrap"  id="home-section">
 
-  <body class="text-center bg-light">
-      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-          <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
-          <nav class="my-2 my-md-0 mr-md-3 nav">
-            <a class="nav-link p-2 active" href="index.html">首页</a>
-            <!-- <a class="nav-link p-2 text-dark" href="sql_tmp.html"  data-toggle="tooltip" title="快速生成sql模板" >SQL 模板生成</a> -->
-            <a class="nav-link p-2 text-dark" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a>
-            <a class="nav-link p-2 text-dark" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a>
-            <a class="nav-link p-2 text-dark" href="lab.html" data-toggle="tooltip" title="sql实验室" >实验室</a>
-            <a class="nav-link p-2 text-dark" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a>
-          </nav>
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
         </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+   
+    <div class="container d-none d-lg-block">
+      <div class="row">
+        <div class="col-12 text-center mb-4 mt-5">
+            <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">Tools for SQL<span class="text-primary">.</span> </a></h1>
+          </div>
+      </div>
+    </div>
+    <header class="site-navbar py-md-4 js-sticky-header site-navbar-target" role="banner">
+
+      <div class="container">
+        <div class="row align-items-center">
+          
+          <div class="col-6 col-md-6 col-xl-2  d-block d-lg-none">
+            <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">Tools for SQL<span class="text-primary">.</span> </a></h1>
+          </div>
+
+          <div class="col-12 col-md-10 main-menu">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a class="nav-link" href="index.html" style="color:#00d2b5">首页</a></li>
+                <li><a class="nav-link" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a></li>
+                <li><a class="nav-link" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a></li>
+                <li><a class="nav-link" href="lab_date.html" data-toggle="tooltip" title="时间生成器" >最近N天</a></li>
+                <li><a class="nav-link" href="lab.html" data-toggle="tooltip" title="sql实验室" >实验室</a></li>
+                <li><a class="nav-link" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a></li>
+
+              </ul>
+            </nav>
+          </div>
 
 
-    <div class="container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-      </header>
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">让你的 SQL 写的更快.</h1>
-        <p class="lead">子曰：能偷多少懒是多少</p>
-      </main>
+          <div class="col-6 col-md-6 d-inline-block d-lg-none ml-md-0" ><a href="#" class="site-menu-toggle js-menu-toggle text-black float-right"><span class="icon-menu h3"></span></a></div>
 
-      <footer class="mastfoot mt-auto text-muted text-center text-small">
-        <div class="inner">
-            <p class="mb-1">© 2018-2019 Clark Yu · <span><a class= 'text-muted text-dark' href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a class= 'text-muted text-dark' href="https://zhuanlan.zhihu.com/p/44502560" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a></span> · <span id="busuanzi_container_site_pv">
-    本站总访问量<span id="busuanzi_value_site_pv"></span>次
-</span></p>
-            <ul class="list-inline">
-            </ul>
         </div>
-      </footer>
+      </div>
+      
+    </header>
+    
 
-      <!-- <footer class="text-muted text-center text-small footer">
-          <p class="mb-1">© 2018-2019 Clark Yu</p>
-          <ul class="list-inline">
-          </ul>
-        </footer> -->
+    <div class="site-blocks-cover">
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+
+          <div class="col-md-12" style="position: relative;" data-aos="fade-up">
+            
+            <img src="images/landing_2.png" alt="Image" class="img-fluid img-absolute">
+
+            <div class="row mb-4">
+              <div class="col-lg-4 mr-auto">
+                <h1>让你的 SQL 写的更快</h1>
+                <p class="mb-5">子曰：能偷多少懒是多少.</p>
+                <!-- <div>
+                  <a href="#" class="btn btn-primary mr-2 mb-2">Get Started</a>
+                </div> -->
+              </div>
+              
+              
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>  
+
+
+
+    <div class="footer py-5 border-top text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="mb-0">
+              <p class="mb-1">© 2018-2019 Clark Yu · <span><a href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a href="https://zhuanlan.zhihu.com/p/44502560" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a></span> · <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
-
-    <script src="jquery.slim.min.js"></script>
-    <script src="popper.min.js"></script>
-    <script src="bootstrap.min.js"></script>
-
-    <script>
-          $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
+  
+     
     
-    </script>
-</body></html>
+  </div> <!-- .site-wrap -->
+
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/jquery.countdown.min.js"></script>
+  <script src="js/bootstrap-datepicker.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.fancybox.min.js"></script>
+  <script src="js/jquery.sticky.js"></script>
+
+  
+  <script src="js/main.js"></script>
+  <script>
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+  </body>
+</html>

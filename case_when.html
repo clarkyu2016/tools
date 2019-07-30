@@ -1,300 +1,387 @@
 <!DOCTYPE html>
-
-<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="zh-cn">
+  <head>
+    <title>快速 CASE WHEN - Tools for SQL</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
     <link rel="icon" href="case_when.ico">
-
-    <title>CASE WHEN 自动生成小工具</title>
-
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link href="footer.css" rel="stylesheet">
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?e1b4211459a3c33fcec7f6cf2a699109";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
   </head>
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+  
+  <div class="site-wrap"  id="home-section">
 
-  <body class="bg-light">
-      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-          <h5 class="my-0 mr-md-auto font-weight-normal"><b>Tools for SQL</b></h5>
-          <nav class="my-2 my-md-0 mr-md-3 nav">
-            <a class="nav-link p-2 text-dark" href="index.html">首页</a>
-            <!-- <a class="nav-link p-2 text-dark" href="sql_tmp.html"  data-toggle="tooltip" title="快速生成sql模板" >SQL 模板生成</a> -->
-            <a class="nav-link p-2 active" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a>
-            <a class="nav-link p-2 text-dark" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a>
-            <a class="nav-link p-2 text-dark" href="lab.html" data-toggle="tooltip" title="sql实验室" >实验室</a>
-            <a class="nav-link p-2 text-dark" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a>
-          </nav>
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
         </div>
-    <div class="container">
-      <div class="py-5 text-center">
-        <h2>CASE WHEN 自动生成小工具</h2>
-        <p class="lead">输入相应的数值或字符，自动生成 <b>CASE WHEN</b> 的 <b>SQL</b> 语句</p>
-        <a href="case_when.html" style='text-decoration:none;' ><button type="button" class="btn btn-primary btn-sm" >数值类</button>
-        <a href="case_when2.html" style='text-decoration:none;' ><button type="button" class="btn btn-secondary btn-sm">文本类</button></a>
       </div>
-
+      <div class="site-mobile-menu-body"></div>
+    </div>
+   
+    <div class="container d-none d-lg-block">
       <div class="row">
+        <div class="col-12 text-center mb-4 mt-5">
+            <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">Tools for SQL<span class="text-primary">.</span> </a></h1>
+          </div>
+      </div>
+    </div>
+    <header class="site-navbar py-md-4 js-sticky-header site-navbar-target" role="banner">
 
-        <div class="col-md-6 order-md-1">
-          <form class="needs-validation" novalidate="">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="inputName">输入字段名</label>
-                <input type="text" class="form-control" id="inputName" placeholder="" value="">
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="outputName">输出字段名</label>
-                <input type="text" class="form-control" id="outputName" placeholder="" value="">
-              </div>
-            </div>
+      <div class="container">
+        <div class="row align-items-center">
+          
+          <div class="col-6 col-md-6 col-xl-2  d-block d-lg-none">
+            <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">Tools for SQL<span class="text-primary">.</span> </a></h1>
+          </div>
 
-            <div class="mb-3">
-              <label for="startnum">起始数值</label>
-              <input type="text" class="form-control" id="startnum" placeholder="请输入一个数值，默认值为0" value="">
-            </div>
+          <div class="col-12 col-md-10 main-menu">
+            <nav class="site-navigation position-relative text-right" role="navigation">
 
-            <div class="mb-3">
-              <label for="endnum">结束数值</label>
-              <input type="text" class="form-control" id="endnum" placeholder="请输入一个数值，默认值为0">
-            </div>
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a class="nav-link" href="index.html">首页</a></li>
+                <li><a class="nav-link" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候" style="color:#00d2b5">快速 CASE WHEN</a></li>
+                <li><a class="nav-link" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a></li>
+                <li><a class="nav-link" href="lab_date.html" data-toggle="tooltip" title="时间生成器" >最近N天</a></li>
+                <li><a class="nav-link" href="lab.html" data-toggle="tooltip" title="sql实验室" >实验室</a></li>
+                <li><a class="nav-link" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a></li>
 
-            <div class="mb-3">
-              <label for="interval">步长</label>
-              <input type="text" class="form-control" id="interval" placeholder="请输入一个数值，默认值为0">
-            </div>
+              </ul>
+            </nav>
+          </div>
 
-            <hr class="mb-3">
 
-            <div class="mb-3">
-              <label for="irregular">手动输入不规则间隔</label>
-              <input type="text" class="form-control" id="irregular" placeholder="请用空格分隔数字，例如：20 30 35">
-            </div>
+          <div class="col-6 col-md-6 d-inline-block d-lg-none ml-md-0" ><a href="#" class="site-menu-toggle js-menu-toggle text-black float-right"><span class="icon-menu h3"></span></a></div>
 
-            <hr class="mb-3">
+        </div>
+      </div>
+      
+    </header>
+    
 
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="inputName">开闭选择</label>
-                <div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="leftclose" id="leftclose1" value=1 checked="checked">
-                    <label class="form-check-label" for="leftclose1">左闭右开</label>
-                  </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="leftclose" id="leftclose2" value=2>
-                    <label class="form-check-label" for="leftclose2">左开右闭</label>
-                  </div>
+  
+
+
+
+    <div class="site-section bg-light" id="contact-section" style="padding-top:2em">
+      <div class="container">
+        <div class="py-5 text-center" style="margin-top: 50px;">
+          <!-- <h3>CASE WHEN 自动生成小工具</h3> -->
+          <p class="lead">输入相应的数值，自动生成 <b>CASE WHEN</b> 的 <b>SQL</b> 语句</p>
+          <a href="case_when.html" style='text-decoration:none;' ><button type="button" class="btn btn-primary btn-sm" >数值类</button>
+          <a href="case_when2.html" style='text-decoration:none;' ><button type="button" class="btn btn-secondary btn-sm">文本类</button></a>
+        </div>
+  
+        <div class="row">
+  
+          <div class="col-md-6 order-md-1">
+            <form class="needs-validation" novalidate="">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="inputName">输入字段名</label>
+                  <input type="text" class="form-control rounded-0" id="inputName" placeholder="" value="">
                 </div>
-
-
+                <div class="col-md-6 mb-3">
+                  <label for="outputName">输出字段名</label>
+                  <input type="text" class="form-control rounded-0" id="outputName" placeholder="" value="">
+                </div>
               </div>
-
-              <div class="col-md-6 mb-3">
-                  <label for="inputName">是否到无穷</label>
+  
+              <div class="mb-3">
+                <label for="startnum">起始数值</label>
+                <input type="text" class="form-control rounded-0" id="startnum" placeholder="请输入一个数值，默认值为0" value="">
+              </div>
+  
+              <div class="mb-3">
+                <label for="endnum">结束数值</label>
+                <input type="text" class="form-control rounded-0" id="endnum" placeholder="请输入一个数值，默认值为0">
+              </div>
+  
+              <div class="mb-3">
+                <label for="interval">步长</label>
+                <input type="text" class="form-control rounded-0 " id="interval" placeholder="请输入一个数值，默认值为0">
+              </div>
+  
+              <hr class="mb-3">
+  
+              <div class="mb-3">
+                <label for="irregular">手动输入不规则间隔</label>
+                <input type="text" class="form-control rounded-0" id="irregular" placeholder="请用空格分隔数字，例如：20 30 35">
+              </div>
+  
+              <hr class="mb-3">
+  
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="inputName">开闭选择</label>
                   <div>
                   <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="infinite" id="infinite1" value=1 checked="checked">
-                      <label class="form-check-label" for="infinite1">是</label>
+                      <input class="form-check-input" type="radio" name="leftclose" id="leftclose1" value=1 checked="checked">
+                      <label class="form-check-label" for="leftclose1">左闭右开</label>
                     </div>
                   <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="infinite" id="infinite2" value=2>
-                      <label class="form-check-label" for="infinite2">否</label>
+                      <input class="form-check-input" type="radio" name="leftclose" id="leftclose2" value=2>
+                      <label class="form-check-label" for="leftclose2">左开右闭</label>
                     </div>
                   </div>
-                </div>
-
-            </div>
-
-            <hr class="mb-4">
-
-            <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
-
-            <br>
-          </form>
-        </div>
-
-        <div class="col-md-6 order-md-2 mb-4">
-              <textarea class="form-control" id="textarea" rows="24"></textarea>
-            </div>
   
+  
+                </div>
+  
+                <div class="col-md-6 mb-3">
+                    <label for="inputName">是否到无穷</label>
+                    <div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="infinite" id="infinite1" value=1 checked="checked">
+                        <label class="form-check-label" for="infinite1">是</label>
+                      </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="infinite" id="infinite2" value=2>
+                        <label class="form-check-label" for="infinite2">否</label>
+                      </div>
+                    </div>
+                  </div>
+  
+              </div>
+  
+              <hr class="mb-4">
+  
+              <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
+  
+              <br>
+            </form>
           </div>
-            
-      </div>
-
-      <footer class="text-muted text-center text-small footer">
-          <p class="mb-1">© 2018-2019 Clark Yu · <span><a class= 'text-muted text-dark' href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a class= 'text-muted text-dark' href="https://zhuanlan.zhihu.com/p/44502560" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a> · </span><span id="busuanzi_container_page_pv">
-  本工具总使用量<span id="busuanzi_value_page_pv"></span>次
-</span></p>
-          <ul class="list-inline">
-          </ul>
-        </footer>
+  
+          <div class="col-md-6 order-md-2 mb-4">
+                <textarea class="form-control rounded-0" id="textarea" rows="24"></textarea>
+              </div>
+    
+            </div>
+              
+        </div>
     </div>
 
+    <div class="footer py-5 border-top text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="mb-0">
+              <p class="mb-1">© 2018-2019 Clark Yu · <span><a href="update_log.html" data-toggle="tooltip" title="又有新的更新啦！" target="_blank" style='text-decoration:none;'>更新日志</a></span> · <span><a href="https://zhuanlan.zhihu.com/p/44502560" data-toggle="tooltip" title="提个意见！" target="_blank" style='text-decoration:none;'>给我留言</a></span> · <span id="busuanzi_container_site_pv">
+                本站总访问量<span id="busuanzi_value_site_pv"></span>次
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
+  
+     
     
-    <script src="jquery.slim.min.js"></script>
-    <script src="popper.min.js"></script>
-    <script src="bootstrap.min.js"></script>
+  </div> <!-- .site-wrap -->
 
-    <script>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/jquery.countdown.min.js"></script>
+  <script src="js/bootstrap-datepicker.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.fancybox.min.js"></script>
+  <script src="js/jquery.sticky.js"></script>
 
-          function accDiv(arg1,arg2){ 
-          var t1=0,t2=0,r1,r2; 
-          try{t1=arg1.toString().split(".")[1].length}catch(e){} 
-          try{t2=arg2.toString().split(".")[1].length}catch(e){} 
-          with(Math){ 
-          r1=Number(arg1.toString().replace(".","")) 
-          r2=Number(arg2.toString().replace(".","")) 
-          return accMul((r1/r2),pow(10,t2-t1)); 
-          } 
-          } 
-          //乘法 
-          function accMul(arg1,arg2) 
-          { 
-          var m=0,s1=arg1.toString(),s2=arg2.toString(); 
-          try{m+=s1.split(".")[1].length}catch(e){} 
-          try{m+=s2.split(".")[1].length}catch(e){} 
-          return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m) 
-          } 
-          //加法 
-          function accAdd(arg1,arg2){ 
-          var r1,r2,m; 
-          try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0} 
-          try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0} 
-          m=Math.pow(10,Math.max(r1,r2)) 
-          return (arg1*m+arg2*m)/m 
-          } 
-          //减法 
-          function Subtr(arg1,arg2){ 
-          var r1,r2,m,n; 
-          try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0} 
-          try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0} 
-          m=Math.pow(10,Math.max(r1,r2)); 
-          n=(r1>=r2)?r1:r2; 
-          return ((arg1*m-arg2*m)/m).toFixed(n); 
-          }
+  
+  <script src="js/main.js"></script>
+  <script>
 
-    function generate() {
-                
-          function getRadioValue(radioName)
-          {
-            var radios = document.getElementsByName(radioName);
-            if(!radios)
-              return '';
-            for (var i = 0; i < radios.length; i++)
-            {
-              if (radios[i].checked)
-              return radios[i].value;
-            }
-              return '';
-          }
+    function accDiv(arg1,arg2){ 
+    var t1=0,t2=0,r1,r2; 
+    try{t1=arg1.toString().split(".")[1].length}catch(e){} 
+    try{t2=arg2.toString().split(".")[1].length}catch(e){} 
+    with(Math){ 
+    r1=Number(arg1.toString().replace(".","")) 
+    r2=Number(arg2.toString().replace(".","")) 
+    return accMul((r1/r2),pow(10,t2-t1)); 
+    } 
+    } 
+    //乘法 
+    function accMul(arg1,arg2) 
+    { 
+    var m=0,s1=arg1.toString(),s2=arg2.toString(); 
+    try{m+=s1.split(".")[1].length}catch(e){} 
+    try{m+=s2.split(".")[1].length}catch(e){} 
+    return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m) 
+    } 
+    //加法 
+    function accAdd(arg1,arg2){ 
+    var r1,r2,m; 
+    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0} 
+    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0} 
+    m=Math.pow(10,Math.max(r1,r2)) 
+    return (arg1*m+arg2*m)/m 
+    } 
+    //减法 
+    function Subtr(arg1,arg2){ 
+    var r1,r2,m,n; 
+    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0} 
+    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0} 
+    m=Math.pow(10,Math.max(r1,r2)); 
+    n=(r1>=r2)?r1:r2; 
+    return ((arg1*m-arg2*m)/m).toFixed(n); 
+    }
 
-          var inputName = document.getElementById("inputName").value;
-          var outputName = document.getElementById("outputName").value;
-          var startnum = document.getElementById("startnum").value * 1;
-          var endnum = document.getElementById("endnum").value * 1 ;
-          var interval = document.getElementById("interval").value * 1;
-          var irregular = document.getElementById("irregular").value;
-          var leftclose = getRadioValue("leftclose") * 1;
-          var infinite = getRadioValue("infinite") * 1;
+function generate() {
+          
+    function getRadioValue(radioName)
+    {
+      var radios = document.getElementsByName(radioName);
+      if(!radios)
+        return '';
+      for (var i = 0; i < radios.length; i++)
+      {
+        if (radios[i].checked)
+        return radios[i].value;
+      }
+        return '';
+    }
 
-          function regular_case(column_name,start,end,interval,left_close,if_end,new_name)
-          {
-            var text_total = 'CASE '
-            var cnt = (end-start)/interval;
+    var inputName = document.getElementById("inputName").value;
+    var outputName = document.getElementById("outputName").value;
+    var startnum = document.getElementById("startnum").value * 1;
+    var endnum = document.getElementById("endnum").value * 1 ;
+    var interval = document.getElementById("interval").value * 1;
+    var irregular = document.getElementById("irregular").value;
+    var leftclose = getRadioValue("leftclose") * 1;
+    var infinite = getRadioValue("infinite") * 1;
 
-            if (left_close == 1){
-              var left_char = '>=';
-                var left_char2 = '[';
-                var right_char = '<';
-                var right_char2 = ')';
-            }else{
-              var left_char = '>';
-              var left_char2 = '(';
-              var right_char = '<=';
-              var right_char2 = ']';
-            }
-            
-            for (var i = 0; i < cnt; i++)
-            {
-              var left_num = accAdd(start,accMul(interval,i));
-              var right_num = accAdd(left_num,interval);
-              var oneline = `WHEN ${column_name} ${left_char} ${left_num} AND ${column_name} ${right_char} ${right_num} THEN '${left_char2}${left_num}, ${right_num}${right_char2}'\n`;
-              text_total += oneline;
-            }
+    function regular_case(column_name,start,end,interval,left_close,if_end,new_name)
+    {
+      var text_total = 'CASE '
+      var cnt = (end-start)/interval;
 
-            if (if_end == 1){
-              text_total += `ELSE '${left_char2}${right_num}, +∞${right_char2}' END AS ${new_name}`;
-            }else{
-              text_total += `ELSE NULL END AS ${new_name}`;
-            }
+      if (left_close == 1){
+        var left_char = '>=';
+          var left_char2 = '[';
+          var right_char = '<';
+          var right_char2 = ')';
+      }else{
+        var left_char = '>';
+        var left_char2 = '(';
+        var right_char = '<=';
+        var right_char2 = ']';
+      }
+      
+      for (var i = 0; i < cnt; i++)
+      {
+        var left_num = accAdd(start,accMul(interval,i));
+        var right_num = accAdd(left_num,interval);
+        var oneline = `WHEN ${column_name} ${left_char} ${left_num} AND ${column_name} ${right_char} ${right_num} THEN '${left_char2}${left_num}, ${right_num}${right_char2}'\n`;
+        text_total += oneline;
+      }
 
-            return text_total;
-          }
+      if (if_end == 1){
+        text_total += `ELSE '${left_char2}${right_num}, +∞${right_char2}' END AS ${new_name}`;
+      }else{
+        text_total += `ELSE NULL END AS ${new_name}`;
+      }
+
+      return text_total;
+    }
 
 
-          function irregular_case(column_name,num_list,left_close,if_end,new_name)
-          {
-            var text_total = 'CASE '
+    function irregular_case(column_name,num_list,left_close,if_end,new_name)
+    {
+      var text_total = 'CASE '
 
-            if (left_close == 1){
-              var left_char = '>=';
-                var left_char2 = '[';
-                var right_char = '<';
-                var right_char2 = ')';
-            }else{
-              var left_char = '>';
-              var left_char2 = '(';
-              var right_char = '<=';
-              var right_char2 = ']';
-            }
-            
-            for (var i = 0; i < num_list.length-1; i++)
-            {
-              var left_num =  num_list[i]*1;
-              var right_num = num_list[i+1]*1;
-              var oneline = `WHEN ${column_name} ${left_char} ${left_num} AND ${column_name} ${right_char} ${right_num} THEN '${left_char2}${left_num}, ${right_num}${right_char2}'\n`;
-              text_total += oneline;
-            }
+      if (left_close == 1){
+        var left_char = '>=';
+          var left_char2 = '[';
+          var right_char = '<';
+          var right_char2 = ')';
+      }else{
+        var left_char = '>';
+        var left_char2 = '(';
+        var right_char = '<=';
+        var right_char2 = ']';
+      }
+      
+      for (var i = 0; i < num_list.length-1; i++)
+      {
+        var left_num =  num_list[i]*1;
+        var right_num = num_list[i+1]*1;
+        var oneline = `WHEN ${column_name} ${left_char} ${left_num} AND ${column_name} ${right_char} ${right_num} THEN '${left_char2}${left_num}, ${right_num}${right_char2}'\n`;
+        text_total += oneline;
+      }
 
-            if (if_end == 1){
-              text_total += `ELSE '${left_char2}${right_num}, +∞${right_char2}' END AS ${new_name}`;
-            }else{
-              text_total += `ELSE NULL END AS ${new_name}`;
-            }
+      if (if_end == 1){
+        text_total += `ELSE '${left_char2}${right_num}, +∞${right_char2}' END AS ${new_name}`;
+      }else{
+        text_total += `ELSE NULL END AS ${new_name}`;
+      }
 
-            if(text_total.indexOf("NaN") != -1){
-              text_total = '输入有误，请检查！'
-            }
-            return text_total;
-          }
+      if(text_total.indexOf("NaN") != -1){
+        text_total = '输入有误，请检查！'
+      }
+      return text_total;
+    }
 
-        function trim(str){ //删除左右两端的空格
-          return str.replace(/(^\s*)|(\s*$)/g, "");
+  function trim(str){ //删除左右两端的空格
+    return str.replace(/(^\s*)|(\s*$)/g, "");
 　　     }  
 
-          var tObj = document.getElementById('textarea');
-          // 
-          var array_list = trim(irregular).split(" ")
-          if(array_list.length >=2){
-            tObj.value = irregular_case(inputName,array_list,leftclose,infinite,outputName);
-          }else{
-            if(interval > 0 &&parseFloat(startnum).toString() != 'NaN' && parseFloat(endnum).toString() != 'NaN' && startnum < endnum ){
-              tObj.value = regular_case(inputName,startnum,endnum,interval,leftclose,infinite,outputName);
-            }
-            else{
-              tObj.value = '输入有误，请检查！'
-            }
+    var tObj = document.getElementById('textarea');
+    // 
+    var array_list = trim(irregular).split(" ")
+    if(array_list.length >=2){
+      tObj.value = irregular_case(inputName,array_list,leftclose,infinite,outputName);
+    }else{
+      if(interval > 0 &&parseFloat(startnum).toString() != 'NaN' && parseFloat(endnum).toString() != 'NaN' && startnum < endnum ){
+        tObj.value = regular_case(inputName,startnum,endnum,interval,leftclose,infinite,outputName);
+      }
+      else{
+        tObj.value = '输入有误，请检查！'
+      }
 
-          }
+    }
 
-          }
+    }
 
-              $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-    </script>
-
-</body></html>
+        $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+  </body>
+</html>
