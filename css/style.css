@@ -283,6 +283,7 @@ h1, h2, h3, h4, h5,
   .site-navbar .site-navigation.border-bottom {
     border-bottom: 1px solid #f3f3f4 !important; }
   .site-navbar .site-navigation .site-menu {
+    text-align:center;
     margin-bottom: 0; }
     .site-navbar .site-navigation .site-menu .active {
       color: #00d2b5;
