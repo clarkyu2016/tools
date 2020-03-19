@@ -97,15 +97,26 @@
 
                     <div class="col-md-6 order-md-2 mb-4">
                         <textarea class="form-control rounded-0" id="inputtextarea" rows="25" placeholder="输入你写的SQL，一键美化！&#10;注意，目前还在测试阶段，如果有任何bad case请尽情反馈！"></textarea>
-                    </div>
+
+					</div>
 
                     <div class="col-md-6 order-md-2 mb-4">
-                        <textarea class="form-control  rounded-0 " id="textarea" rows="25" placeholder=""></textarea>
-                    </div>
+						<textarea class="form-control  rounded-0 " id="textarea" rows="25" placeholder=""></textarea>
+					</div>
 
+					<div class="col-md-6 order-md-2 mb-4">
+							<button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键美化SQL</button>
+					
+					</div>
+
+                    <div class="col-md-6 order-md-2 mb-4">
+						<button class="btn btn-primary btn-lg btn-block" id="button2" type="submit" onclick="generate2();return false;">一键美化DDL</button>
+					</div>
+					
                 </div>
 
-                <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键美化</button>
+				
+				
             </div>
         </div>
         <div class="footer py-5 border-top text-center">
@@ -834,29 +845,125 @@ function reshape_comment(str){
 	return text_final
 }
 
-            function newsql(str) {
-              	step1 = reshape_comment(str);
-                step2 = replace_char(step1) ;
-                step3 = get_bracket(step2);
-                step4 = except_subquery(step3);
-                step5 = special_wrap(step4).replace(/\-\-\s{0,}\n/ig, "\n-- ");
-                // console.log(step5);
-                step6 = bracket_deep(step5); //union all需要单独函数来考虑
-                step7 = extra(step6);
-                return step7
-            };
+function newsql(str) {
+	step1 = reshape_comment(str);
+	step2 = replace_char(step1) ;
+	step3 = get_bracket(step2);
+	step4 = except_subquery(step3);
+	step5 = special_wrap(step4).replace(/\-\-\s{0,}\n/ig, "\n-- ");
+	// console.log(step5);
+	step6 = bracket_deep(step5); //union all需要单独函数来考虑
+	step7 = extra(step6);
+	return step7
+};
 
 
+var tObj = document.getElementById('textarea');
+try {
+	tObj.value = newsql(raw_text);
+} catch (err) {
+	tObj.value = '你的sql语句有问题！（也有可能我的逻辑有点毛病！）\n欢迎和我交流！'
+}
+
+}
 
 
-            var tObj = document.getElementById('textarea');
-            try {
-                tObj.value = newsql(raw_text);
-            } catch (err) {
-                tObj.value = '你的sql语句有问题！（也有可能我的逻辑有点毛病！）\n欢迎和我交流！'
-            }
+		function generate2() {
 
-        }
+	var raw_text = document.getElementById('inputtextarea').value;
+	function ddl(str){
+	var text_final = '';
+	var text_list = [];
+	var text_list_orginal = str.replace(/\n\s{1,}/ig, "\n")
+							   .replace(/BIGINT/ig, "BIGINT")
+							   .replace(/DOUBLE/ig, "DOUBLE")
+							   .replace(/STRING/ig, "STRING")
+							   .replace(/ COMMENT/ig, " COMMENT ")
+							   .replace(/ COMMENT '/ig, "COMMENT'")
+							   .replace(/ COMMENT "/ig, 'COMMENT"')
+							   .replace(/CREATE TABLE/ig, "CREATE TABLE")
+							   .replace(/PARTITIONED/ig, "PARTITIONED")
+							.split("\n");
+	for (i = 0; i < text_list_orginal.length; i++) {
+		if (text_list_orginal[i] != "" && text_list_orginal[i] != " ") {
+			text_list.push(text_list_orginal[i].replace(/\s{1,}/ig, " "));
+		}
+	}
+	
+	var col_name = [];
+	var col_len = [];
+	var col_type = [];
+	var col_type_len = [];
+	var col_comment = [];
+	var start_end = [];
+
+	for (i = 0; i < text_list.length; i++) {
+		if(/STRING|DOUBLE|BIGINT/ig.exec(text_list[i]) && text_list[i].indexOf('PARTITIONED') == -1){
+			var new_str_list = text_list[i].replace(/\s{1,}/ig, " ").replace(/,\s{0,}/ig, "").replace(/^\s{1,}/ig, "").split(" ");
+			col_name.push(new_str_list[0]);
+			col_len.push(new_str_list[0].length)
+			col_type.push(new_str_list[1]);
+			col_type_len.push(new_str_list[1].length)
+			col_comment.push(text_list[i].split("COMMENT")[1]);
+			start_end.push(i);
+		}
+
+	}
+
+	if(col_name.length >0){
+		var col = '';
+		if(col_name.length > 0){
+			var max_col_name = Math.max.apply(Math,col_len);
+			var max_col_type = Math.max.apply(Math,col_type_len);
+			for (let q = 0; q < col_name.length; q++){
+				if(q==0){
+					col += '\n     ';
+				} else{
+					col += '\n    ,';
+				}
+
+				col += col_name[q] + " ".times(max_col_name - col_len[q]) + " " + col_type[q] + " ".times(max_col_type - col_type_len[q]) + " " + "COMMENT " + col_comment[q];
+			}
+		}
+	
+		for (let i = 0; i < start_end[0]; i++) {
+			if(i == 0){
+				text_final += text_list[i];
+			} else 
+			{
+				text_final += "\n" + text_list[i];
+			}
+		}
+	
+		text_final =  text_final + col;
+	
+		for (let i = start_end[start_end.length-1]+1; i < text_list.length; i++) {
+			text_final += "\n" + text_list[i];
+		}
+	
+	} else{
+		for (let i = 0; i < text_list.length; i++) {
+			if(i == 0){
+				text_final += text_list[i];
+			} else 
+			{
+				text_final += "\n" + text_list[i];
+			}
+		}
+	}
+	return text_final.replace(/COMMENT'/ig, "COMMENT '").replace(/COMMENT"/ig, 'COMMENT "')
+}
+
+
+	var tObj = document.getElementById('textarea');
+try {
+	tObj.value = ddl(raw_text);
+} catch (err) {
+	tObj.value = '你的sql语句有问题！（也有可能我的逻辑有点毛病！）\n欢迎和我交流！'
+}
+
+}
+
 
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
