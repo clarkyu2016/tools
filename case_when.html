@@ -363,7 +363,7 @@ function generate() {
 
     var tObj = document.getElementById('textarea');
     // 
-    var array_list = trim(irregular).split(" ")
+    var array_list = trim(irregular).replace(/\s+/g, ' ').split(" ")
     if(array_list.length >=2){
       tObj.value = irregular_case(inputName,array_list,leftclose,infinite,outputName);
     }else{

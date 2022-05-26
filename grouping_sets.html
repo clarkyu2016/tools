@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
-    <title>实验室 - Tools for SQL</title>
+    <title>快速 GROUPING SETS - Tools for SQL</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="css/aos.css">
 
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="icon" href="case_when.ico">
   </head>
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -61,12 +60,12 @@
 
               <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
                 <li><a class="nav-link" href="index.html">首页</a></li>
-                <li><a class="nav-link" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候">快速 CASE WHEN</a></li>
+                <li><a class="nav-link" href="case_when.html" data-toggle="tooltip" title="不想写case when的时候" >快速 CASE WHEN</a></li>
                 <li><a class="nav-link" href="avoid_lose.html" data-toggle="tooltip" title="一次使用N张表" >疯狂JOIN</a></li>
                 <li><a class="nav-link" href="lab_date.html" data-toggle="tooltip" title="时间生成器" >最近N天</a></li>
                 <li><a class="nav-link" href="lab_join.html" data-toggle="tooltip" title="多表相似关联" >多表相似关联</a></li>
                 <li><a class="nav-link" href="beauty_sql.html" data-toggle="tooltip" title="SQL美化">SQL美化</a></li>
-                <li><a class="nav-link" href="lab.html" data-toggle="tooltip" title="sql实验室" style="color:#00d2b5">实验室</a></li>
+                <li><a class="nav-link" href="lab.html" data-toggle="tooltip" title="sql实验室"  style="color:#00d2b5">实验室</a></li>
                 <li><a class="nav-link" href="https://regex101.com/" data-toggle="tooltip" title="正则表达实验室" target="_blank">REGEX101</a></li>
 
               </ul>
@@ -83,65 +82,48 @@
     
 
 
-    <div class="site-section" id="blog-section">
+    <div class="site-section bg-light" id="contact-section" style="padding-top:2em">
       <div class="container">
-          <div class="py-5 text-center">
-              <p class="lead">尝试一些小工具让你更快地书写SQL</p>
-            </div>
-      
-            <div class="row">
-      
-              <div class="col-md-12 order-md-1">
-                <form class="needs-validation" novalidate="">
-      
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <a class="nav-link p-2 text-dark" href="lab_date.html" target="_blank"><p>A. 日期生成器</p></a>
-                        </div>
-                        
-                        <div class="col-md-9 mb-2">
-                          <p class="nav-link p-2 text-dark" >自动生成类似between date_add('2019-02-11',-29) and '2019-02-11'的语句！</p>
-                        </div>
-      
-                        <div class="col-md-3 mb-2">
-                            <a class="nav-link p-2 text-dark" href="lab_loop.html" target="_blank"><p>B. 循环字段生成器</p></a>
-                        </div>
-                        
-                        <div class="col-md-9 mb-2">
-                          <p class="nav-link p-2 text-dark" >适用于当出现n个字段，需要写n个例如sum([字段名])语句的情况！</p>
-                        </div>
-      
-      
-                        <div class="col-md-3 mb-2">
-                          <a class="nav-link p-2 text-dark" href="lab_join.html" target="_blank"><p>C. 多表连接生成器</p></a>
-                      </div>
-                      
-                      <div class="col-md-9 mb-2">
-                        <p class="nav-link p-2 text-dark" >适用于要用类似的字段关联n张表的情况！</p>
-                      </div>
-      
-                      <div class="col-md-3 mb-2">
-                        <a class="nav-link p-2 text-dark" href="grouping_sets.html" target="_blank"><p>D. GROUPING SETS生成器</p></a>
+        <div class="py-5 text-center" style="margin-top: 50px;">
+          <!-- <h3>CASE WHEN 自动生成小工具</h3> -->
+          <p class="lead">输入相应的字符，自动生成 <b>GROUPING SETS</b> 的 <b>SQL</b> 语句</p>
+        </div>
+  
+        <div class="row">
+
+          <div class="col-md-6 order-md-1">
+            <form class="needs-validation" novalidate="">
+  
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                    <textarea class="form-control  rounded-0" id="text_input" rows="18" placeholder="请将参与grouping sets字段按照一行一个填入"></textarea>
                     </div>
+
+                    <hr class="mb-3">
                     
-                    <div class="col-md-9 mb-2">
-                      <p class="nav-link p-2 text-dark" >适用快速多种筛选！</p>
+                    <div class="col-md-12 mb-3">
+                      <label for="inputName">输入不参与汇总字段名</label>
+                      <input type="text" class="form-control  rounded-0" id="inputName" placeholder="按照空格分隔" value="">
                     </div>
-            
-                    </div>
-      
-      
-                  <hr class="mb-3">
-      
-                </form>
-              
-              </div>
-      
                 </div>
-      </div>
+  
+  
+              <hr class="mb-3">
+              <button class="btn btn-primary btn-lg btn-block" id="button1" type="submit" onclick="generate();return false;">一键生成</button>
+  
+              <br>
+            </form>
+          
+          </div>
+  
+          <div class="col-md-6 order-md-2 mb-4">
+                <textarea class="form-control rounded-0" id="textarea" rows="24" placeholder="预期效果： &#10;case when column = 0 then '文本0' &#10when column = 1 then '文本1'&#10when column = 2 then '文本2'&#10when column = 3 then '文本3' end as output"></textarea>
+              </div>
+    
+            </div>
+              
+        </div>
     </div>
-
-
 
     <div class="footer py-5 border-top text-center">
       <div class="container">
@@ -180,8 +162,69 @@
   <script src="js/aos.js"></script>
   <script src="js/jquery.fancybox.min.js"></script>
   <script src="js/jquery.sticky.js"></script>
-
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
   <script src="js/main.js"></script>
+  <script>
+    function generate() {
+
+          var inputArea = document.getElementById('text_input');
+          var inputName = document.getElementById("inputName");
+
+          var output = '';
+          var input_list = [];
+          var final_list = [];
+
+          var arr = inputArea.value.trim().split('\n');
+          var always_in = inputName.value.trim().replace(/\s+/g, ' ').split(' ');
+
+          for (var a2 = []; a2.push([]) < arr.length;);
+            var l = Math.pow(2, arr.length)-1;
+            for (var i = 1; i <= l; i++) {
+                var t = [];
+                for (var s=i,k=0; s>0; s>>=1,k++)
+                    if (s&1==1)
+                        t.push(arr[k]);
+                        input_list.push(t)
+                }
+
+
+    for (let i = 0; i < input_list.length; i++){
+        var is_use = 1;
+        if(always_in.length>0 && always_in != ""){
+          for(let j = 0; j < always_in.length; j++) {
+        if(input_list[i].indexOf(always_in[j]) == -1){
+          is_use = is_use * 0;
+        }
+        }
+        }
+
+            if(is_use > 0 && input_list[i].length > 0){
+            final_list.push(input_list[i])
+            }
+          }
+
+
+          for (let i = 0; i < final_list.length; i++){
+
+            if(i == 0){
+              output += '(' + final_list[i].join(",") + ')'
+            } else{
+              output += '\n' + ',(' + final_list[i].join(",") + ')'
+            }
+          }
+
+
+
+          console.log(typeof(inputArea.value));
+          var tObj = document.getElementById('textarea');
+          tObj.value = 'GROUPING SETS (' + output + ',())';
+          }
+
+        $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    </script>
   </body>
 </html>
